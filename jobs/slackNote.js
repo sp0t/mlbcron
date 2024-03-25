@@ -55,6 +55,7 @@ exports.slackNote = async() => {
             var startime = new Date(res.rows[x].start_time);
             if(getDiffernceDateWithMin(currentTime, startime) != -1 && getDiffernceDateWithMin(currentTime, startime) > 120) {
                 try {
+                    console.log(res.rows[x].game_id)
                     var response = await axios.post('http://127.0.0.1:5000/getLineupStatus', {
                             gameid: res.rows[x].game_id,
                         });
