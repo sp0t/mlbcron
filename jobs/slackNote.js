@@ -35,8 +35,8 @@ exports.slackNote = async() => {
     const client = new Client({
         user: 'postgres',
         host: 'localhost',
-        database: 'luca',
-        password: 'postgres',
+        database: 'betmlb',
+        password: 'lucamlb123',
         port: 5432,
     })
 
