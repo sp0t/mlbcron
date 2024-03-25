@@ -73,7 +73,5 @@ exports.slackNote = async() => {
                 }
             }
         }
-    }
-
     await client.end();
 }
