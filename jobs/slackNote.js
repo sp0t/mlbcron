@@ -46,6 +46,8 @@ exports.slackNote = async() => {
     await client.connect();
     var res = await client.query(`SELECT * FROM odds_table WHERE state != '2' AND game_date = '${gamedate}' ORDER BY start_time ASC;`);
 
+    console.log(res.rows)
+
     if(res.rows != undefined) {
         for(var x = 0; x < res.rows.length; x++) {
             var startime = new Date(res.rows[x].start_time);
