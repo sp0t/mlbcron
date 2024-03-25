@@ -51,6 +51,8 @@ const slackNote = async() => {
     if(res.rows != undefined) {
         for(var x = 0; x < res.rows.length; x++) {
             console.log(res.rows[x], currentTime)
+            console.log(getDiffernceDateWithMin(currentTime, res.rows[x].start_time))
+            console.log(getDiffernceDateWithMin(currentTime, res.rows[x].start_time))
             if(getDiffernceDateWithMin(currentTime, res.rows[x].start_time) != -1 && getDiffernceDateWithMin(currentTime, res.rows[x].start_time) > 120) {
                 console.log('start fetchin api')
                 try {
