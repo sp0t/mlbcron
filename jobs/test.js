@@ -67,9 +67,9 @@ const slackNote = async() => {
                     if (response.data.away != 0 || response.data.home != 0 ) {
                         var message = `${res.rows[x].away} @ ${res.rows[x].home}\n${res.rows[x].away} ${response.data.away == 1 ? checkmark: crossmark}\n${res.rows[x].home} ${response.data.home == 1 ? checkmark: crossmark}`;
                         if(response.data.away != 0 && response.data.home != 0)
-                            var response = await client.query(`UPDATE odds_table SET state = '2' WHERE game_id = '${res.rows[x].game_id}';`);
+                            var respond = await client.query(`UPDATE odds_table SET state = '2' WHERE game_id = '${res.rows[x].game_id}';`);
                         else
-                            var response = await client.query(`UPDATE odds_table SET state = '1' WHERE game_id = '${res.rows[x].game_id}';`);
+                            var respond = await client.query(`UPDATE odds_table SET state = '1' WHERE game_id = '${res.rows[x].game_id}';`);
                         
                         if(response.data.away != 0 && response.data.home != 0 || res.rows[x].state == 0)
                             await sendMessage(process.env.SLACK_CHANNEL_ID, message);
