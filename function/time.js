@@ -12,6 +12,7 @@ exports.getTodayAt2PM = () => {
 
 exports.getDiffernceDateWithMin = (date1, date2) => {
     var differenceInMilliseconds = date2 - date1;
+    console.log(differenceInMilliseconds)
     if (date1 > date2)
         return -1;
 
