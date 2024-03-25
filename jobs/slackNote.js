@@ -66,9 +66,10 @@ exports.slackNote = async() => {
                 console.log(response.data)
 
                 if(response.data != undefined) {
-                    if (response.data.away != 0 && response.data.home != 0 ) {
+                    if (response.data.away != 0 || response.data.home != 0 ) {
                         var message = `${res.rows[x].away} @ ${res.rows[x].home}\n${res.rows[x].away} ${response.data.away == 1 ? checkmark: crossmark}\n${res.rows[x].home} ${response.data.home == 1 ? checkmark: crossmark}`;
-                        var response = await client.query(`UPDATE odds_table SET state = '1' WHERE game_id = '${res.rows[x].game_id}';`);
+                        if(response.data.away != 0 && response.data.home != 0)
+                            var response = await client.query(`UPDATE odds_table SET state = '1' WHERE game_id = '${res.rows[x].game_id}';`);
                         await sendMessage(process.env.SLACK_CHANNEL_ID, message);
                     }
                 }
