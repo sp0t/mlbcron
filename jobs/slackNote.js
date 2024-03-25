@@ -60,6 +60,8 @@ exports.slackNote = async() => {
                     return;
                 }
 
+                console.log(response.data)
+
                 if(response.data != undefined) {
                     if (response.data.away != 0 || response.data.home != 0 ) {
                         var message = `${res.rows[x].away} @ ${res.rows[x].home}\n${res.rows[x].away} ${response.data.away == 1 ? checkmark: crossmark}\n${res.rows[x].home} ${response.data.home == 1 ? checkmark: crossmark}`;
