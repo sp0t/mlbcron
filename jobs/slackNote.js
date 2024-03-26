@@ -58,6 +58,8 @@ exports.slackNote = async() => {
                     return;
                 }
 
+                console.log(res.rows[x].game_id, response.data)
+
 
                 if(response.data != undefined) {
                     if (response.data.away != 0 || response.data.home != 0 ) {
