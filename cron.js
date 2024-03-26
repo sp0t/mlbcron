@@ -16,8 +16,8 @@ const task2 = cron.schedule('*/2 * * * *', () => {
   scheduled: true
 });
 
-const task3 = cron.schedule('*/1 * * * *', () => {
-    slackNote();
+const task3 = cron.schedule('*/15 * * * * *', () => {
+  slackNote();
 }, {
   scheduled: true
 });
