@@ -19,6 +19,7 @@ const autoBetSettle = async() => {
             var gamedate = res_bettings.rows[x].betdate.replace(/-/g, '/');
             var res = await client.query(`SELECT game_id FROM odds_table WHERE game_date = '${gamedate}' AND away = '${res_bettings.rows[x].team1}' AND home = '${res_bettings.rows[x].team2}';`);
             if(res.rows != undefined && res.rows[0].game_id != undefined) {
+                console.log(res.rows[0].game_id)
                 try {
                     var response = await axios.post('http://127.0.0.1:5000/getWinStatus', {
                         gameid: res.rows[0].game_id,
