@@ -25,7 +25,7 @@ const update = async() => {
         console.log('start')
         const startime = new Date(res_lastgame.rows[0].start_time);
         const gamedate = new Date(res_lastday.rows[0].update_date);   
-        const newdate = addOneDayToDate(addOneDayToDate(gamedate));
+        const newdate = addOneDayToDate(gamedate);
         newdate.setUTCHours(0, 0, 0, 0); 
         console.log(newdate)
         // if(getDiffernceDateWithHour(newdate, currentTime) != -1 && getDiffernceDateWithHour(startime, currentTime) > 2) {
