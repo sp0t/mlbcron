@@ -17,7 +17,7 @@ const update = async() => {
     var res_lastday = await client.query(`SELECT * FROM updates ORDER BY update_date DESC LIMIT 1;`);
     await client.end();
 
-    console.log(res_lastday)
+    console.log(res_lastday.rows)
 
     
     // if (res_lastgame.rows[0].start_time != undefined && res_lastday.rows[0].game_date != undefined && res_lastgame.rows[0].game_id != undefined) {
