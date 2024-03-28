@@ -14,7 +14,7 @@ const update = async() => {
 
     await client.connect();
     var res_lastgame = await client.query(`SELECT * FROM odds_table WHERE start_time is NOT NULL ORDER BY start_time DESC LIMIT 1;`);
-    var res_lastday = await client.query(`SELECT * FROM updates ORDER BY update_date DESC;`);
+    var res_lastday = await client.query(`SELECT * FROM updates ORDER BY update_date DESC LIMIT 1;`);
     await client.end();
 
     console.log(res_lastday)
