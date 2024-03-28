@@ -18,12 +18,11 @@ const update = async() => {
     await client.end();
     
     if (res_lastgame.rows[0].start_time != undefined && res_lastday.rows[0].update_date != undefined && res_lastgame.rows[0].game_id != undefined) {
-        console.log('start')
         const startime = new Date(res_lastgame.rows[0].start_time);
         const gamedate = new Date(res_lastday.rows[0].update_date);   
         const newdate = addOneDayToDate(gamedate);
         newdate.setUTCHours(0, 0, 0, 0); 
-        if(getDiffernceDateWithHour(newdate, currentTime) != -1 && getDiffernceDateWithHour(startime, currentTime) > 2) {
+        // if(getDiffernceDateWithHour(newdate, currentTime) != -1 && getDiffernceDateWithHour(startime, currentTime) > 2) {
             try {
                 var response = await axios.post('http://127.0.0.1:5000/getLastGameStatus', {
                         gameid: res_lastgame.rows[0].game_id,
@@ -41,7 +40,7 @@ const update = async() => {
                     console.log('update =====================')
                 }
             }
-        }
+        // }
     }
 }
 
