@@ -26,7 +26,7 @@ exports.saveOdds = async() => {
         },
         params: {
             sportId: 3,
-            leagueIds: 5425,
+            leagueIds: 246,
         }
     };
     
