@@ -14,14 +14,13 @@ exports.update = async() => {
 
     await client.connect();
     var res_lastgame = await client.query(`SELECT * FROM odds_table WHERE start_time is NOT NULL ORDER BY start_time DESC LIMIT 1;`);
-    var res_lastday = await client.query(`SELECT * FROM game_table WHERE game_date is NOT NULL ORDER BY game_date DESC LIMIT 1;`);
+    var res_lastday = await client.query(`SELECT * FROM updates ORDER BY update_date DESC LIMIT 1;`);
     await client.end();
-
     
-    if (res_lastgame.rows[0].start_time != undefined && res_lastday.rows[0].game_date != undefined && res_lastgame.rows[0].game_id != undefined) {
+    if (res_lastgame.rows[0].start_time != undefined && res_lastday.rows[0].update_date != undefined && res_lastgame.rows[0].game_id != undefined) {
         const startime = new Date(res_lastgame.rows[0].start_time);
-        const gamedate = new Date(res_lastday.rows[0].game_date);   
-        const newdate = addOneDayToDate(addOneDayToDate(gamedate));
+        const gamedate = new Date(res_lastday.rows[0].update_date);   
+        const newdate = addOneDayToDate(gamedate);
         newdate.setUTCHours(0, 0, 0, 0); 
         if(getDiffernceDateWithHour(newdate, currentTime) != -1 && getDiffernceDateWithHour(startime, currentTime) > 2) {
             try {
@@ -31,6 +30,8 @@ exports.update = async() => {
             } catch (error) {
                 return;
             }
+
+            console.log(response.data.state)
     
             if(response.data.state != undefined) {
                 if (response.data.state > 10) {
