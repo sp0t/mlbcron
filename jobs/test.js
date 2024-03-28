@@ -18,6 +18,7 @@ const update = async() => {
     await client.end();
 
     console.log(res_lastday.rows)
+    console.log(res_lastgame.rows[0])
 
     
     if (res_lastgame.rows[0].start_time != undefined && res_lastday.rows[0].game_date != undefined && res_lastgame.rows[0].game_id != undefined) {
