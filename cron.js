@@ -28,7 +28,7 @@ const task4 = cron.schedule('*/30 * * * *', () => {
   scheduled: true
 });
 
-task1.start();
+// task1.start();
 task2.start();
 task3.start();
 task4.start();
