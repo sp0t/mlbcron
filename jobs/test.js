@@ -49,17 +49,17 @@ const update = async() => {
                                     status = 2;
                             }
                             
-                            // try {
-                            //     var response = await axios.post('http://127.0.0.1:5000/showbetting', {
-                            //         gamedate: res_bettings.rows[x].betdate,
-                            //         away: res_bettings.rows[x].team1,
-                            //         home: res_bettings.rows[x].team2,
-                            //         status: status,
-                            //         place: res_bettings.rows[x].place
-                            //     });
-                            // } catch (error) {
-                            //     return;
-                            // }
+                            try {
+                                var response = await axios.post('http://127.0.0.1:5000/showbetting', {
+                                    gamedate: res_bettings.rows[x].betdate,
+                                    away: res_bettings.rows[x].team1,
+                                    home: res_bettings.rows[x].team2,
+                                    status: status,
+                                    place: res_bettings.rows[x].place
+                                });
+                            } catch (error) {
+                                return;
+                            }
 
                         }
                     }
