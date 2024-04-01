@@ -4,7 +4,7 @@ const { saveOdds } = require('./jobs/saveOdds')
 const { slackNote } = require('./jobs/slackNote')
 const { update } = require('./jobs/update')
 
-const task1 = cron.schedule('*/30 * * * *', () => {
+const task1 = cron.schedule('*/15 * * * *', () => {
     autoBetSettle();
 }, {
   scheduled: true
