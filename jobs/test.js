@@ -4,9 +4,6 @@ const { getDiffernceDateWithHour, addOneDayToDate } = require('../function/time'
 const { dateToString, getDiffernceDateWithMin } = require('../function/time');
 
 const update = async() => {
-    const checkmark = ':white_check_mark:';
-    const crossmark = ':x:';
-
     const client = new Client({
         user: 'postgres',
         host: 'localhost',
@@ -15,45 +12,59 @@ const update = async() => {
         port: 5432,
     })
 
-    const currentTime = new Date();
-    const gamedate = dateToString(currentTime);
-    console.log(gamedate)
-
     await client.connect();
-    var res = await client.query(`SELECT * FROM odds_table WHERE state != '2' AND game_date = '${gamedate}' ORDER BY start_time ASC;`);
-    console.log(res.rows)
-
-    if(res.rows != undefined) {
-        for(var x = 0; x < res.rows.length; x++) {
-            var startime = new Date(res.rows[x].start_time);
-            if(getDiffernceDateWithMin(currentTime, startime) != -1) {
-                console.log(res.rows[x].game_id)
+    var res_bettings = await client.query(`SELECT COUNT(betid), betdate, team1, team2, place FROM betting_table WHERE status = '0' AND regstate = '1' GROUP BY betdate, team1, team2, place;`);
+    
+    console.log(res_bettings.rows, res_bettings.rows.length)
+    if(res_bettings.rows != undefined && res_bettings.rows.length > 0) {
+        for(var x in res_bettings.rows) {
+            var gamedate = res_bettings.rows[x].betdate.replace(/-/g, '/');
+            var res = await client.query(`SELECT game_id FROM odds_table WHERE game_date = '${gamedate}' AND away = '${res_bettings.rows[x].team1}' AND home = '${res_bettings.rows[x].team2}';`);
+            if(res.rows != undefined && res.rows[0].game_id != undefined) {
                 try {
-                    var response = await axios.post('http://127.0.0.1:5000/getLineupStatus', {
-                            gameid: res.rows[x].game_id,
-                        });
+                    var response = await axios.post('http://127.0.0.1:5000/getWinStatus', {
+                        gameid: res.rows[0].game_id,
+                    });
                 } catch (error) {
                     return;
                 }
 
-                console.log(res.rows[x].game_id, response.data)
+                var status = 0;
 
+                if (response.data != undefined) {
+                    if(response.data.away_score != undefined && response.data.home_score != undefined) {
+                        if(response.data.away_score != 0 || response.data.home_score != 0) {
+                            if (response.data.away_score > response.data.home_score) {
+                                if(res_bettings.rows[x].team1 == res_bettings.rows[x].place)
+                                    status = 2;
+                                else
+                                    status = 1;
+                            } else if (response.data.away_score < response.data.home_score) {
+                                if(res_bettings.rows[x].team1 == res_bettings.rows[x].place)
+                                    status = 1;
+                                else
+                                    status = 2;
+                            }
+                            
+                            try {
+                                var response = await axios.post('http://127.0.0.1:5000/showbetting', {
+                                    gamedate: res_bettings.rows[x].betdate,
+                                    away: res_bettings.rows[x].team1,
+                                    home: res_bettings.rows[x].team2,
+                                    status: status,
+                                    place: res_bettings.rows[x].place
+                                });
+                            } catch (error) {
+                                return;
+                            }
 
-                if(response.data != undefined) {
-                    if (response.data.away != 0 || response.data.home != 0 ) {
-                        var message = `${res.rows[x].away} @ ${res.rows[x].home}\n${res.rows[x].away} ${response.data.away == 1 ? checkmark: crossmark}\n${res.rows[x].home} ${response.data.home == 1 ? checkmark: crossmark}`;
-                        if(response.data.away != 0 && response.data.home != 0)
-                            var respond = await client.query(`UPDATE odds_table SET state = '2' WHERE game_id = '${res.rows[x].game_id}';`);
-                        else
-                            var respond = await client.query(`UPDATE odds_table SET state = '1' WHERE game_id = '${res.rows[x].game_id}';`);
-                        
-                        if(response.data.away != 0 && response.data.home != 0 || res.rows[x].state == 0)
-                            await sendMessage(process.env.SLACK_CHANNEL_ID, message);
                         }
                     }
                 }
             }
         }
+    }
+    
     await client.end();
 }
 
