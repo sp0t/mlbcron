@@ -17,6 +17,7 @@ const update = async() => {
 
     const currentTime = new Date();
     const gamedate = dateToString(currentTime);
+    console.log(gamedate)
 
     await client.connect();
     var res = await client.query(`SELECT * FROM odds_table WHERE state != '2' AND game_date = '${gamedate}' ORDER BY start_time ASC;`);
