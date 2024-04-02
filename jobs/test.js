@@ -1,6 +1,7 @@
 const axios = require("axios");
 const { Client } = require('pg');
 const { getDiffernceDateWithHour, addOneDayToDate } = require('../function/time');
+const { dateToString, getDiffernceDateWithMin } = require('../function/time');
 
 const update = async() => {
     const checkmark = ':white_check_mark:';
