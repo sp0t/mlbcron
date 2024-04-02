@@ -20,11 +20,13 @@ const update = async() => {
 
     await client.connect();
     var res = await client.query(`SELECT * FROM odds_table WHERE state != '2' AND game_date = '${gamedate}' ORDER BY start_time ASC;`);
+    console.log(res.rows)
 
     if(res.rows != undefined) {
         for(var x = 0; x < res.rows.length; x++) {
             var startime = new Date(res.rows[x].start_time);
             if(getDiffernceDateWithMin(currentTime, startime) != -1) {
+                console.log(res.rows[x].game_id)
                 try {
                     var response = await axios.post('http://127.0.0.1:5000/getLineupStatus', {
                             gameid: res.rows[x].game_id,
