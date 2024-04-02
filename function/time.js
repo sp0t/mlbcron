@@ -41,6 +41,7 @@ exports.addOneDayToDate = (date) => {
 exports.dateToString = (date) => {
     var yy = date.getFullYear();
     var mm = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
+    console.log(date.getDate())
     var dd = date.getDate().length < 10 ? '0' + date.getDate() : date.getDate();
     var str = yy + '/' + mm + '/' + dd;
     return str;
