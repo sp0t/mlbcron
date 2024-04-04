@@ -38,11 +38,11 @@ const update = async() => {
                     if(response.data.away_score != undefined && response.data.home_score != undefined) {
                         if(response.data.away_score != 0 || response.data.home_score != 0) {
                             if (response.data.away_score > response.data.home_score) {
-                                if(res_bettings.rows[x].team1 == res_bettings.rows[x].place)
+                                if(parseInt(res_bettings.rows[x].team1) == parseInt(res_bettings.rows[x].place))
                                     status = 2;
                                 else
                                     status = 1;
-                            } else if (response.data.away_score < response.data.home_score) {
+                            } else if (parseInt(response.data.away_score) < parseInt(response.data.home_score)) {
                                 if(res_bettings.rows[x].team1 == res_bettings.rows[x].place)
                                     status = 1;
                                 else
