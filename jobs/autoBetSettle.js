@@ -31,7 +31,7 @@ exports.autoBetSettle = async() => {
 
                 if (response.data != undefined) {
                     if(response.data.away_score != undefined && response.data.home_score != undefined) {
-                        if(response.data.away_score != 0 || response.data.home_score != 0) {
+                        if(parseInt(response.data.away_score) != 0 || parseInt(response.data.home_score) != 0) {
                             if (parseInt(response.data.away_score) > parseInt(response.data.home_score)) {
                                 if(res_bettings.rows[x].team1 == res_bettings.rows[x].place)
                                     status = 2;

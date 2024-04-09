@@ -22,21 +22,21 @@ exports.update = async() => {
         const gamedate = new Date(res_lastday.rows[0].update_date);   
         const newdate = addOneDayToDate(gamedate);
         newdate.setUTCHours(0, 0, 0, 0); 
-        if(getDiffernceDateWithHour(newdate, currentTime) != -1 && getDiffernceDateWithHour(startime, currentTime) > 2) {
+        if(getDiffernceDateWithHour(newdate, currentTime) != -1 && getDiffernceDateWithHour(startime, currentTime) > 3) {
             try {
-                var response = await axios.post('http://127.0.0.1:5000/getLastGameStatus', {
+                var response = await axios.post('http://127.0.0.1:5000/getWinStatus', {
                         gameid: res_lastgame.rows[0].game_id,
                     });
             } catch (error) {
                 return;
             }
 
-            console.log(response.data.state)
-    
-            if(response.data.state != undefined) {
-                if (response.data.state > 10) {
-                    const response = await axios.post('http://127.0.0.1:5000/update_data', {
-                    });
+            if (response.data != undefined) {
+                if(response.data.away_score != undefined && response.data.home_score != undefined) {
+                    if(parseInt(response.data.away_score) != 0 || parseInt(response.data.home_score) != 0) {
+                        const response = await axios.post('http://127.0.0.1:5000/update_data', {
+                        });
+                    }
                 }
             }
         }
