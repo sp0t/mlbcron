@@ -22,7 +22,7 @@ exports.update = async() => {
         const gamedate = new Date(res_lastday.rows[0].update_date);   
         const newdate = addOneDayToDate(gamedate);
         newdate.setUTCHours(0, 0, 0, 0); 
-        if(getDiffernceDateWithHour(newdate, currentTime) != -1 && getDiffernceDateWithHour(startime, currentTime) > 3) {
+        if(getDiffernceDateWithHour(newdate, currentTime) != -1 && getDiffernceDateWithHour(startime, currentTime) > 4) {
             try {
                 var response = await axios.post('http://127.0.0.1:5000/getWinStatus', {
                         gameid: res_lastgame.rows[0].game_id,
