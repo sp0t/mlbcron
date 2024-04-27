@@ -41,6 +41,7 @@ const update = async() => {
             if (response.data != undefined) {
                 if(response.data.away_score != undefined && response.data.home_score != undefined) {
                     if(parseInt(response.data.away_score) != 0 || parseInt(response.data.home_score) != 0) {
+                        console.log("start")
                         const response = await axios.post('http://127.0.0.1:5000/update_data', {
                         });
                     }
