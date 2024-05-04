@@ -47,6 +47,7 @@ const update = async() => {
     if(res.rows != undefined) {
         for(var x = 0; x < res.rows.length; x++) {
             var startime = new Date(res.rows[x].start_time);
+            console.log(res.rows[x]);
             console.log(res.rows[x].auto_bet);
             // if(getDiffernceDateWithMin(currentTime, startime) != -1) {
             //     try {
