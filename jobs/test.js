@@ -1,34 +1,10 @@
 require('dotenv').config()
 const axios = require("axios");
 const { dateToString, getDiffernceDateWithMin } = require('../function/time');
-const { WebClient } = require('@slack/web-api');
 const { Client } = require('pg');
 
-const slackClient = new WebClient(process.env.SLACK_TOKEN);
-
-
-const sendMessage = async(channelId, messageText) => {
-    try {
-        const resp = await slackClient.conversations.join({
-            channel: channelId,
-        });
-
-        const response = await slackClient.chat.postMessage({
-            channel: channelId,
-            text: messageText, // Always include a 'text' parameter for fallback purposes.
-            // Add other parameters as needed, like 'blocks' for structured layout
-        });
-
-        console.log("Message sent successfully", response.ts);
-        return;
-    } catch (error) {
-        console.error("Error sending message:", error);
-    }
-}
 
 const update = async() => {
-    const checkmark = ':white_check_mark:';
-    const crossmark = ':x:';
 
     const client = new Client({
         user: 'postgres',
@@ -42,7 +18,7 @@ const update = async() => {
     const gamedate = dateToString(currentTime);
 
     await client.connect();
-    var res = await client.query(`SELECT * FROM odds_table WHERE auto_bet == '1' AND state == '2' game_date = '${gamedate}';`);
+    var res = await client.query(`SELECT * FROM odds_table WHERE auto_bet == '1' AND state == '2' AND game_date = '${gamedate}';`);
 
     if(res.rows != undefined) {
         for(var x = 0; x < res.rows.length; x++) {
