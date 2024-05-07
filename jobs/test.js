@@ -18,7 +18,7 @@ const update = async() => {
     const gamedate = dateToString(currentTime);
 
     await client.connect();
-    var res = await client.query(`SELECT * FROM odds_table WHERE auto_bet = '1' AND state = '2' AND game_date = '${gamedate}';`);
+    var res = await client.query(`SELECT * FROM odds_table WHERE auto_bet = '1' AND state = '2';`);
 
     if(res.rows != undefined) {
         for(var x = 0; x < res.rows.length; x++) {
