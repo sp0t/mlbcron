@@ -42,37 +42,30 @@ const update = async() => {
     const gamedate = dateToString(currentTime);
 
     await client.connect();
-    var res = await client.query(`SELECT * FROM odds_table WHERE state != '2' AND game_date = '${gamedate}' ORDER BY start_time ASC;`);
+    var res = await client.query(`SELECT * FROM odds_table WHERE auto_bet == '1' AND state == '2' game_date = '${gamedate}';`);
 
     if(res.rows != undefined) {
         for(var x = 0; x < res.rows.length; x++) {
             var startime = new Date(res.rows[x].start_time);
-            // console.log(res.rows[x]);
-            // console.log(res.rows[x].auto_bet);
-            // if(getDiffernceDateWithMin(currentTime, startime) != -1) {
-            //     try {
-            //         var response = await axios.post('http://127.0.0.1:5000/getLineupStatus', {
-            //                 gameid: res.rows[x].game_id,
-            //             });
-            //     } catch (error) {
-            //         return;
-            //     }
+            console.log(res.rows[x]);
+            if(getDiffernceDateWithMin(currentTime, startime) != -1) {
+                try {
+                    var response = await axios.post('http://127.0.0.1:5000/getTarget', {
+                            gameid: res.rows[x].game_id,
+                        });
+                } catch (error) {
+                    return;
+                }
 
-            //     if(response.data != undefined) {
-            //         if (response.data.away != 0 || response.data.home != 0 ) {
-            //             var message = `${res.rows[x].away} @ ${res.rows[x].home}\n${res.rows[x].away} ${response.data.away == 1 ? checkmark: crossmark}\n${res.rows[x].home} ${response.data.home == 1 ? checkmark: crossmark}`;
-            //             if(response.data.away != 0 && response.data.home != 0)
-            //                 var respond = await client.query(`UPDATE odds_table SET state = '2' WHERE game_id = '${res.rows[x].game_id}';`);
-            //             else
-            //                 var respond = await client.query(`UPDATE odds_table SET state = '1' WHERE game_id = '${res.rows[x].game_id}';`);
-                        
-            //             if(response.data.away != 0 && response.data.home != 0 || res.rows[x].state == 0)
-            //                 await sendMessage(process.env.SLACK_CHANNEL_ID, message);
-            //             }
-            //         }
-            //     }
+                
+                if(response.data != undefined) {
+                    console.log(response.data)
+                }
+            } else {
+                var respond = await client.query(`UPDATE odds_table SET auto_bet = '0' WHERE game_id = '${res.rows[x].game_id}';`);
             }
-        }
+        } 
+    }
     await client.end();
 }
 
