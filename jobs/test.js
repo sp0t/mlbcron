@@ -23,8 +23,8 @@ const update = async() => {
     if(res.rows != undefined) {
         for(var x = 0; x < res.rows.length; x++) {
             var startime = new Date(res.rows[x].start_time);
-            console.log(res.rows[x]);
             if(getDiffernceDateWithMin(currentTime, startime) != -1) {
+                console.log(res.rows[x]);
                 try {
                     var response = await axios.post('http://127.0.0.1:5000/getTarget', {
                             gameid: res.rows[x].game_id,
