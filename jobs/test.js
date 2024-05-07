@@ -26,7 +26,7 @@ const update = async() => {
             if(getDiffernceDateWithMin(currentTime, startime) != -1) {
                 console.log(res.rows[x]);
                 try {
-                    var response = await axios.get('http://127.0.0.1:5000/getTarget', {
+                    var response = await axios.post('http://127.0.0.1:5000/getTarget', {
                             gameid: res.rows[x].game_id,
                         });
                 } catch (error) {
