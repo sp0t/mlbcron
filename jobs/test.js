@@ -81,7 +81,7 @@ const update = async() => {
 
         var games = retodd.data.leagues[0].events;
 
-        for(var i = 0; i < res.rows.length; x++) {
+        for(var i = 0; i < res.rows.length; i++) {
             var startime = new Date(res.rows[i].start_time);
             if(getDiffernceDateWithMin(currentTime, startime) != -1) {
                 console.log(res.rows[x]);
@@ -103,8 +103,8 @@ const update = async() => {
                                 if(games[y].periods != undefined && games[y].periods[0].moneyline != undefined) {
                                     if(games[y].periods[0].moneyline.away != undefined && games[y].periods[0].moneyline.home != undefined) {
                                         if(events[x].away == res.rows[i].away && events[x].home == res.rows[i].home && events[x].starts == res.rows[i].start_time) {
-                                            // console.log(events[x])
-                                            // console.log(games[y].periods[0])
+                                            console.log(events[x])
+                                            console.log(games[y].periods[0])
                                         }
                                     }                                        
                                 }
