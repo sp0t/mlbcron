@@ -103,8 +103,8 @@ const update = async() => {
                                 if(games[y].periods != undefined && games[y].periods[0].moneyline != undefined) {
                                     if(games[y].periods[0].moneyline.away != undefined && games[y].periods[0].moneyline.home != undefined) {
                                         if(events[x].away == res.rows[i].away && events[x].home == res.rows[i].home && events[x].starts == res.rows[i].start_time) {
-                                            console.log(events[i])
-                                            console.log(games[y].periods[0])
+                                            console.log(events[x].away, events[x].home, events[x].starts)
+                                            console.log(games[y].periods[0].moneyline)
                                         }
                                     }                                        
                                 }
