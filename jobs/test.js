@@ -23,6 +23,64 @@ const update = async() => {
     var res = await client.query(`SELECT * FROM odds_table WHERE auto_bet = '1';`);
 
     if(res.rows != undefined) {
+
+        var token = genToken();
+        var options = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            },
+            params: {
+                sportId: 3,
+                leagueIds: 246,
+            }
+        };
+        
+        try {
+            var [retodd, retfixture] = await Promise.all([
+                axios.get("https://api.ps3838.com/v3/odds", options),
+                axios.get("https://api.ps3838.com/v3/fixtures", options)
+            ]);
+        } catch (error) {
+            console.log(error)
+            await client.end();
+            return;
+        }
+
+        if (retfixture.data.league == undefined) {
+            await client.end();
+            return;
+        }
+
+        if (retfixture.data.league[0].events == undefined) {
+            await client.end();
+            return;
+        }
+        
+        if (retfixture.data.league[0].events.length == 0) {
+            await client.end();
+            return;
+        }
+    
+        var events = retfixture.data.league[0].events;
+    
+        if(retodd.data.leagues == undefined) {
+            await client.end();
+            return;
+        }
+        
+        if(retodd.data.leagues[0].events == undefined) {
+            await client.end();
+            return;
+        }
+    
+        if(retodd.data.leagues[0].events.length == 0) {
+            await client.end();
+            return;
+        }
+
+        var games = retodd.data.leagues[0].events;
+
         for(var x = 0; x < res.rows.length; x++) {
             var startime = new Date(res.rows[x].start_time);
             if(getDiffernceDateWithMin(currentTime, startime) != -1) {
@@ -35,66 +93,9 @@ const update = async() => {
                     await client.end();
                     return;
                 }
-
                 
                 if(response.data != undefined) {
                     console.log(response.data)
-                    var token = genToken();
-                    var options = {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': token
-                        },
-                        params: {
-                            sportId: 3,
-                            leagueIds: 246,
-                        }
-                    };
-                    
-                    try {
-                        var [retodd, retfixture] = await Promise.all([
-                            axios.get("https://api.ps3838.com/v3/odds", options),
-                            axios.get("https://api.ps3838.com/v3/fixtures", options)
-                        ]);
-                    } catch (error) {
-                        console.log(error)
-                        await client.end();
-                        return;
-                    }
-
-                    if (retfixture.data.league == undefined) {
-                        await client.end();
-                        return;
-                    }
-            
-                    if (retfixture.data.league[0].events == undefined) {
-                        await client.end();
-                        return;
-                    }
-                    
-                    if (retfixture.data.league[0].events.length == 0) {
-                        await client.end();
-                        return;
-                    }
-                
-                    var events = retfixture.data.league[0].events;
-                
-                    if(retodd.data.leagues == undefined) {
-                        await client.end();
-                        return;
-                    }
-                    
-                    if(retodd.data.leagues[0].events == undefined) {
-                        await client.end();
-                        return;
-                    }
-                
-                    if(retodd.data.leagues[0].events.length == 0) {
-                        await client.end();
-                        return;
-                    }
-
-                    var games = retodd.data.leagues[0].events;
 
                     for (var x in events) {
                         for (var y in games) {
