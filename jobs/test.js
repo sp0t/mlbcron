@@ -81,13 +81,13 @@ const update = async() => {
 
         var games = retodd.data.leagues[0].events;
 
-        for(var x = 0; x < res.rows.length; x++) {
-            var startime = new Date(res.rows[x].start_time);
+        for(var i = 0; i < res.rows.length; x++) {
+            var startime = new Date(res.rows[i].start_time);
             if(getDiffernceDateWithMin(currentTime, startime) != -1) {
                 console.log(res.rows[x]);
                 try {
                     var response = await axios.post('http://127.0.0.1:5000/getTarget', {
-                            gameid: res.rows[x].game_id,
+                            gameid: res.rows[i].game_id,
                         });
                 } catch (error) {
                     await client.end();
@@ -103,8 +103,8 @@ const update = async() => {
                                 if(games[y].periods != undefined && games[y].periods[0].moneyline != undefined) {
                                     if(games[y].periods[0].moneyline.away != undefined && games[y].periods[0].moneyline.home != undefined) {
                                         console.log(events[x].away)
-                                        console.log(res.rows[x].away)
-                                        // if(events[x].away == res.rows[x].away && events[x].home == res.rows[x].home && events[x].starts == res.rows[x].start_time) {
+                                        console.log(res.rows[i].away)
+                                        // if(events[x].away == res.rows[i].away && events[x].home == res.rows[i].home && events[x].starts == res.rows[i].start_time) {
                                             // console.log(events[x])
                                             // console.log(games[y].periods[0])
                                         // }
@@ -114,10 +114,10 @@ const update = async() => {
                         }    
                     }
                 } else {
-                    var respond = await client.query(`UPDATE odds_table SET auto_bet = '0' WHERE game_id = '${res.rows[x].game_id}';`);
+                    var respond = await client.query(`UPDATE odds_table SET auto_bet = '0' WHERE game_id = '${res.rows[i].game_id}';`);
                 }
             } else {
-                var respond = await client.query(`UPDATE odds_table SET auto_bet = '0' WHERE game_id = '${res.rows[x].game_id}';`);
+                var respond = await client.query(`UPDATE odds_table SET auto_bet = '0' WHERE game_id = '${res.rows[i].game_id}';`);
             }
         } 
     }
