@@ -102,10 +102,10 @@ const update = async() => {
                             if(games[y].id != undefined && games[y].id == events[x].id) {
                                 if(games[y].periods != undefined && games[y].periods[0].moneyline != undefined) {
                                     if(games[y].periods[0].moneyline.away != undefined && games[y].periods[0].moneyline.home != undefined) {
-                                        if(events[x].away == res.rows[x].away && events[x].home == res.rows[x].home && events[x].starts == res.rows[x].start_time) {
+                                        // if(events[x].away == res.rows[x].away && events[x].home == res.rows[x].home && events[x].starts == res.rows[x].start_time) {
                                             console.log(events[x])
                                             console.log(games[y].periods[0])
-                                        }
+                                        // }
                                     }                                        
                                 }
                             }
