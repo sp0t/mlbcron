@@ -105,6 +105,29 @@ const update = async() => {
                                         if(events[x].away == res.rows[i].away && events[x].home == res.rows[i].home && events[x].starts == res.rows[i].start_time) {
                                             console.log(events[x].away, events[x].home, events[x].starts)
                                             console.log(games[y].periods[0].moneyline)
+
+                                            var betoption = {
+                                                headers: {
+                                                    'Content-Type': 'application/json',
+                                                    'Authorization': token
+                                                },
+                                                params: {
+                                                    "oddsFormat": "languages",
+                                                    "acceptBetterLine": true,
+                                                    "stake": 10.5,
+                                                    "winRiskStake": "RISK",
+                                                    "lineId": games[y].periods[0].lineId,
+                                                    "pitcher1MustStart": true,
+                                                    "pitcher2MustStart": true,
+                                                    "fillType": "NORMAL",
+                                                    "sportId": 3,
+                                                    "eventId": events[x].id,
+                                                    "betType": "MONEYLINE",
+                                                    "team": "TEAM1",
+                                                }
+                                            };
+
+                                            console.log(betoption)
                                         }
                                     }                                        
                                 }
