@@ -90,7 +90,6 @@ const update = async() => {
         for(var i = 0; i < res.rows.length; i++) {
             var startime = new Date(res.rows[i].start_time);
             if(getDiffernceDateWithMin(currentTime, startime) != -1) {
-                console.log(res.rows[x]);
                 try {
                     var response = await axios.post('http://127.0.0.1:5000/getTarget', {
                             gameid: res.rows[i].game_id,
@@ -105,7 +104,6 @@ const update = async() => {
                     home_odd = 0;
                     away_prob = 0;
                     home_prob = 0;
-                    console.log(response.data)
 
                     // Assuming you have a utility object `odds` with methods `americanToDecimal` and `decimalToAmerican`
                     if (response.data[0]['la_away_odd'] !== null) {
@@ -163,31 +161,56 @@ const update = async() => {
                                 if(games[y].periods != undefined && games[y].periods[0].moneyline != undefined) {
                                     if(games[y].periods[0].moneyline.away != undefined && games[y].periods[0].moneyline.home != undefined) {
                                         if(events[x].away == res.rows[i].away && events[x].home == res.rows[i].home && events[x].starts == res.rows[i].start_time) {
-                                            console.log(events[x].away, events[x].home, events[x].starts)
                                             console.log(games[y].periods[0].moneyline)
+                                            if(away_odd != 0 && away_odd >= games[y].periods[0].moneyline.away) {
+                                                var awayoption = {
+                                                    headers: {
+                                                        'Content-Type': 'application/json',
+                                                        'Authorization': token
+                                                    },
+                                                    params: {
+                                                        "oddsFormat": "AMERICAN",
+                                                        "acceptBetterLine": true,
+                                                        "stake": 50,
+                                                        "winRiskStake": "RISK",
+                                                        "lineId": games[y].periods[0].lineId,
+                                                        "pitcher1MustStart": true,
+                                                        "pitcher2MustStart": true,
+                                                        "fillType": "NORMAL",
+                                                        "sportId": 3,
+                                                        "eventId": events[x].id,
+                                                        "betType": "MONEYLINE",
+                                                        "team": "TEAM1",
+                                                    }
+                                                };
+    
+                                                // console.log(awayoption)
+                                            } 
 
-                                            var betoption = {
-                                                headers: {
-                                                    'Content-Type': 'application/json',
-                                                    'Authorization': token
-                                                },
-                                                params: {
-                                                    "oddsFormat": "AMERICAN",
-                                                    "acceptBetterLine": true,
-                                                    "stake": 50,
-                                                    "winRiskStake": "RISK",
-                                                    "lineId": games[y].periods[0].lineId,
-                                                    "pitcher1MustStart": true,
-                                                    "pitcher2MustStart": true,
-                                                    "fillType": "NORMAL",
-                                                    "sportId": 3,
-                                                    "eventId": events[x].id,
-                                                    "betType": "MONEYLINE",
-                                                    "team": "TEAM1",
-                                                }
-                                            };
-
-                                            console.log(betoption)
+                                            if(home_odd != 0 && home_odd >= games[y].periods[0].moneyline.home) {
+                                                var homeoption = {
+                                                    headers: {
+                                                        'Content-Type': 'application/json',
+                                                        'Authorization': token
+                                                    },
+                                                    params: {
+                                                        "oddsFormat": "AMERICAN",
+                                                        "acceptBetterLine": true,
+                                                        "stake": 50,
+                                                        "winRiskStake": "RISK",
+                                                        "lineId": games[y].periods[0].lineId,
+                                                        "pitcher1MustStart": true,
+                                                        "pitcher2MustStart": true,
+                                                        "fillType": "NORMAL",
+                                                        "sportId": 3,
+                                                        "eventId": events[x].id,
+                                                        "betType": "MONEYLINE",
+                                                        "team": "TEAM2",
+                                                    }
+                                                };
+    
+                                                console.log(homeoption)
+                                            }
                                         }
                                     }                                        
                                 }
