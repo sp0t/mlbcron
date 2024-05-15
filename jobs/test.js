@@ -182,7 +182,7 @@ const update = async() => {
                                                 };
                                                 
                                                 try {
-                                                    var awayres = await axios.post("https://api.ps3838.com/v2/bets/place", awayoption, headers);
+                                                    var awayres = await axios.post("https://api.ps3838.com/v2/bets/place", awayoption, {headers: headers});
                                                 } catch (error) {
                                                     if (error.response) {
                                                         // The request was made and the server responded with a status code
@@ -227,7 +227,7 @@ const update = async() => {
                                                 };
 
                                                 try {
-                                                    var homeres = await axios.post("https://api.ps3838.com/v2/bets/place", homeoption, headers);
+                                                    var homeres = await axios.post("https://api.ps3838.com/v2/bets/place", homeoption, {headers: headers});
                                                 } catch (error) {
                                                     if (error.response) {
                                                         // The request was made and the server responded with a status code
