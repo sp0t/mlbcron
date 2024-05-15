@@ -162,7 +162,7 @@ const update = async() => {
                                     if(games[y].periods[0].moneyline.away != undefined && games[y].periods[0].moneyline.home != undefined) {
                                         if(events[x].away == res.rows[i].away && events[x].home == res.rows[i].home && events[x].starts == res.rows[i].start_time) {
                                             console.log(games[y].periods[0].moneyline)
-                                            if(away_odd != 0 && away_odd >= games[y].periods[0].moneyline.away) {
+                                            if(away_odd != 0 && games[y].periods[0].moneyline.away >= away_odd) {
                                                 var awayoption = {
                                                     headers: {
                                                         'Content-Type': 'application/json',
@@ -187,7 +187,7 @@ const update = async() => {
                                                 console.log(awayoption)
                                             } 
 
-                                            if(home_odd != 0 && home_odd >= games[y].periods[0].moneyline.home) {
+                                            if(home_odd != 0 && games[y].periods[0].moneyline.home >= home_odd) {
                                                 var homeoption = {
                                                     headers: {
                                                         'Content-Type': 'application/json',
