@@ -1,10 +1,16 @@
 require('dotenv').config()
 const axios = require("axios");
 const { dateToString, getDiffernceDateWithMin } = require('../function/time');
+const { decimalToAmerican, americanToDecimal } = require('../function/odds');
 const { Client } = require('pg');
 const { genToken } = require('../function/credential');
 
 const update = async() => {
+
+    var away_odd = 0;
+    var home_odd = 0;
+    var away_prob = 0;
+    var home_prob = 0;
 
     const client = new Client({
         user: 'postgres',
@@ -95,7 +101,61 @@ const update = async() => {
                 }
                 
                 if(response.data != undefined) {
+                    away_odd = 0;
+                    home_odd = 0;
+                    away_prob = 0;
+                    home_prob = 0;
                     console.log(response.data)
+
+                    // Assuming you have a utility object `odds` with methods `americanToDecimal` and `decimalToAmerican`
+                    if (response.data[0]['la_away_odd'] !== null) {
+                        response.data[0]['la_away_odd'] = americanToDecimal(parseFloat(response.data[0]['la_away_odd']));
+                    }
+                    if (response.data[0]['la_home_odd'] !== null) {
+                        response.data[0]['la_home_odd'] = americanToDecimal(parseFloat(response.data[0]['la_home_odd']));
+                    }
+                    if (response.data[0]['lb_away_odd'] !== null) {
+                        response.data[0]['lb_away_odd'] = americanToDecimal(parseFloat(response.data[0]['lb_away_odd']));
+                    }
+                    if (response.data[0]['lb_home_odd'] !== null) {
+                        response.data[0]['lb_home_odd'] = americanToDecimal(parseFloat(response.data[0]['lb_home_odd']));
+                    }
+
+                    if (response.data[0]['la_away_prob'] !== null && response.data[0]['lb_away_prob'] !== null) {
+                        away_prob = parseFloat(response.data[0]['la_away_prob']) * 0.8 + parseFloat(response.data[0]['lb_away_prob']) * 0.2;
+                        home_prob = parseFloat(response.data[0]['la_home_prob']) * 0.8 + parseFloat(response.data[0]['lb_home_prob']) * 0.2;
+                    } else {
+                        away_prob = 0;
+                        home_prob = 0;
+                    }
+
+                    if (response.data[0]['away_prob'] !== null && response.data[0]['away_prob'] < 48) {
+                        away_odd = 0;
+                    } else if (response.data[0]['away_prob'] === null) {
+                        away_odd = 0;
+                    } else if (response.data[0]['la_away_odd'] !== null && response.data[0]['lb_away_odd'] !== null) {
+                        away_odd = response.data[0]['la_away_odd'] * 0.8 + response.data[0]['lb_away_odd'] * 0.2;
+                    }
+
+                    if (away_odd !== 0) {
+                        away_odd = odds.decimalToAmerican(away_odd);
+                    }
+
+                    if (response.data[0]['home_prob'] !== null && response.data[0]['home_prob'] < 48) {
+                        home_odd = 0;
+                    } else if (response.data[0]['home_prob'] === null) {
+                        home_odd = 0;
+                    } else if (response.data[0]['la_home_odd'] !== null && response.data[0]['lb_home_odd'] !== null) {
+                        home_odd = response.data[0]['la_home_odd'] * 0.8 + response.data[0]['lb_home_odd'] * 0.2;
+                    }
+
+                    if (home_odd !== 0) {
+                        home_odd = decimalToAmerican(home_odd);
+                    }
+
+                    console.log('away_odd', away_odd)
+                    console.log('home_odd', home_odd)
+
 
                     for (var x in events) {
                         for (var y in games) {
