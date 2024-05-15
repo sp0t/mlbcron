@@ -4,6 +4,7 @@ const { dateToString, getDiffernceDateWithMin } = require('../function/time');
 const { decimalToAmerican, americanToDecimal } = require('../function/odds');
 const { Client } = require('pg');
 const { genToken, generateUUID } = require('../function/credential');
+const { randomUUID } = require('crypto');
 
 const update = async() => {
 
@@ -166,7 +167,7 @@ const update = async() => {
                                         if(events[x].away == res.rows[i].away && events[x].home == res.rows[i].home && events[x].starts == res.rows[i].start_time) {
                                             console.log(games[y].periods[0].moneyline)
                                             if(away_odd != 0 && games[y].periods[0].moneyline.away >= away_odd) {
-                                                var uuid = generateUUID();
+                                                var uuid = randomUUID();
                                                 var awayoption = {
                                                     "oddsFormat": "AMERICAN",
                                                     "uniqueRequestId": uuid,
@@ -214,7 +215,7 @@ const update = async() => {
                                             } 
 
                                             if(home_odd != 0 && games[y].periods[0].moneyline.home >= home_odd) {
-                                                var uuid = generateUUID();
+                                                var uuid = randomUUID();
 
                                                 var homeoption = {
                                                     "oddsFormat": "AMERICAN",
