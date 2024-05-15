@@ -31,6 +31,12 @@ const update = async() => {
     if(res.rows != undefined) {
 
         var token = genToken();
+
+        var headers =  {
+            'Content-Type': 'application/json',
+            'Authorization': token
+        }
+
         var options = {
             headers: {
                 'Content-Type': 'application/json',
@@ -161,28 +167,22 @@ const update = async() => {
                                             console.log(games[y].periods[0].moneyline)
                                             if(away_odd != 0 && games[y].periods[0].moneyline.away >= away_odd) {
                                                 var awayoption = {
-                                                    headers: {
-                                                        'Content-Type': 'application/json',
-                                                        'Authorization': token
-                                                    },
-                                                    params: {
-                                                        "oddsFormat": "AMERICAN",
-                                                        "acceptBetterLine": true,
-                                                        "stake": 50,
-                                                        "winRiskStake": "RISK",
-                                                        "lineId": games[y].periods[0].lineId,
-                                                        "pitcher1MustStart": true,
-                                                        "pitcher2MustStart": true,
-                                                        "fillType": "NORMAL",
-                                                        "sportId": 3,
-                                                        "eventId": events[x].id,
-                                                        "betType": "MONEYLINE",
-                                                        "team": "TEAM1",
-                                                    }
+                                                    "oddsFormat": "AMERICAN",
+                                                    "acceptBetterLine": true,
+                                                    "stake": 50,
+                                                    "winRiskStake": "RISK",
+                                                    "lineId": games[y].periods[0].lineId,
+                                                    "pitcher1MustStart": true,
+                                                    "pitcher2MustStart": true,
+                                                    "fillType": "NORMAL",
+                                                    "sportId": 3,
+                                                    "eventId": events[x].id,
+                                                    "betType": "MONEYLINE",
+                                                    "team": "TEAM1"
                                                 };
                                                 
                                                 try {
-                                                    var awayres = await axios.post("https://api.ps3838.com/v2/bets/place", awayoption);
+                                                    var awayres = await axios.post("https://api.ps3838.com/v2/bets/place", awayoption, headers);
                                                 } catch (error) {
                                                     console.log(error)
                                                     await client.end();
@@ -199,28 +199,22 @@ const update = async() => {
 
                                             if(home_odd != 0 && games[y].periods[0].moneyline.home >= home_odd) {
                                                 var homeoption = {
-                                                    headers: {
-                                                        'Content-Type': 'application/json',
-                                                        'Authorization': token
-                                                    },
-                                                    params: {
-                                                        "oddsFormat": "AMERICAN",
-                                                        "acceptBetterLine": true,
-                                                        "stake": 50,
-                                                        "winRiskStake": "RISK",
-                                                        "lineId": games[y].periods[0].lineId,
-                                                        "pitcher1MustStart": true,
-                                                        "pitcher2MustStart": true,
-                                                        "fillType": "NORMAL",
-                                                        "sportId": 3,
-                                                        "eventId": events[x].id,
-                                                        "betType": "MONEYLINE",
-                                                        "team": "TEAM2",
-                                                    }
+                                                    "oddsFormat": "AMERICAN",
+                                                    "acceptBetterLine": true,
+                                                    "stake": 50,
+                                                    "winRiskStake": "RISK",
+                                                    "lineId": games[y].periods[0].lineId,
+                                                    "pitcher1MustStart": true,
+                                                    "pitcher2MustStart": true,
+                                                    "fillType": "NORMAL",
+                                                    "sportId": 3,
+                                                    "eventId": events[x].id,
+                                                    "betType": "MONEYLINE",
+                                                    "team": "TEAM2"
                                                 };
 
                                                 try {
-                                                    var homeres = await axios.post("https://api.ps3838.com/v2/bets/place", homeoption);
+                                                    var homeres = await axios.post("https://api.ps3838.com/v2/bets/place", homeoption, headers);
                                                 } catch (error) {
                                                     console.log(error)
                                                     await client.end();
