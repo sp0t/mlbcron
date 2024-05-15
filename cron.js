@@ -1,5 +1,6 @@
 const cron = require('node-cron');
 const { autoBetSettle } = require('./jobs/autoBetSettle')
+const { autoBetPlace } = require('./jobs/autoBetPlace')
 const { saveOdds } = require('./jobs/saveOdds')
 const { slackNote } = require('./jobs/slackNote')
 const { update } = require('./jobs/update')
@@ -28,9 +29,16 @@ const task4 = cron.schedule('*/30 * * * *', () => {
   scheduled: true
 });
 
+const task5 = cron.schedule('*/2 * * * *', () => {
+  autoBetPlace();
+}, {
+scheduled: true
+});
+
 task1.start();
 task2.start();
 task3.start();
 task4.start();
+task5.start();
 
 console.log('Cron jobs have been initialized');
