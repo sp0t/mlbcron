@@ -206,9 +206,9 @@ const update = async() => {
                                                     return;
                                                 }
 
-                                                if(awayres.status == 'ACCEPTED') {
+                                                if(awayres.data.status == 'ACCEPTED') {
                                                     await client.query(`INSERT INTO autobet_table (betdate, game, team1, team2, market, place, odds, price, target, stake, wins, placedat, status, site, betid) 
-                                                                        VALUES ('${betdate}', '${res.rows[i].away} vs ${res.rows[i].home}', '${res.rows[i].away}', '${res.rows[i].home}', '${awayres.straightBet.betType}', '${res.rows[i].away}', '${games[y].periods[0].moneyline.away}', '${awayres.straightBet.price}', '${away_odd}', '50', '${awayres.straightBet.win}', '${awayres.straightBet.placedAt}', '0', 'ps3838.com', '${awayres.straightBet.betId}');`);
+                                                                        VALUES ('${betdate}', '${res.rows[i].away} vs ${res.rows[i].home}', '${res.rows[i].away}', '${res.rows[i].home}', '${awayres.data.straightBet.betType}', '${res.rows[i].away}', '${games[y].periods[0].moneyline.away}', '${awayres.data.straightBet.price}', '${away_odd}', '50', '${awayres.data.straightBet.win}', '${awayres.data.straightBet.placedAt}', '0', 'ps3838.com', '${awayres.data.straightBet.betId}');`);
                                                     await client.query(`UPDATE odds_table SET auto_bet = '0' WHERE game_id = '${res.rows[i].game_id}';`);
                                                 }
                                                 
@@ -254,12 +254,10 @@ const update = async() => {
                                                     await client.end();
                                                     return;
                                                 }
-
-                                                console.log(homeres)
                                                 
-                                                if(homeres.status == 'ACCEPTED') {
+                                                if(homeres.data.status == 'ACCEPTED') {
                                                     await client.query(`INSERT INTO autobet_table (betdate, game, team1, team2, market, place, odds, price, target, stake, wins, placedat, status, site, betid) 
-                                                                        VALUES ('${betdate}', '${res.rows[i].away} vs ${res.rows[i].home}', '${res.rows[i].away}', '${res.rows[i].home}', '${awayres.straightBet.betType}', '${res.rows[i].home}', '${games[y].periods[0].moneyline.home}', '${awayres.straightBet.price}', '${home_odd}', '50', '${awayres.straightBet.win}', '${awayres.straightBet.placedAt}', '0', 'ps3838.com', '${awayres.straightBet.betId}');`);
+                                                                        VALUES ('${betdate}', '${res.rows[i].away} vs ${res.rows[i].home}', '${res.rows[i].away}', '${res.rows[i].home}', '${homeres.data.straightBet.betType}', '${res.rows[i].home}', '${games[y].periods[0].moneyline.home}', '${homeres.data.straightBet.price}', '${home_odd}', '50', '${homeres.data.straightBet.win}', '${homeres.data.straightBet.placedAt}', '0', 'ps3838.com', '${homeres.data.straightBet.betId}');`);
                                                     await client.query(`UPDATE odds_table SET auto_bet = '0' WHERE game_id = '${res.rows[i].game_id}';`);
                                                 }
                                             }
