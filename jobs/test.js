@@ -138,7 +138,7 @@ const update = async() => {
                     }
 
                     if (away_odd !== 0) {
-                        away_odd = odds.decimalToAmerican(away_odd);
+                        away_odd = decimalToAmerican(away_odd);
                     }
 
                     if (response.data[0]['home_prob'] !== null && response.data[0]['home_prob'] < 48) {
