@@ -177,6 +177,7 @@ const update = async() => {
                                                     "fillType": "NORMAL",
                                                     "sportId": 3,
                                                     "eventId": events[x].id,
+                                                    "periodNumber": 0,
                                                     "betType": "MONEYLINE",
                                                     "team": "TEAM1"
                                                 };
@@ -222,6 +223,7 @@ const update = async() => {
                                                     "fillType": "NORMAL",
                                                     "sportId": 3,
                                                     "eventId": events[x].id,
+                                                    "periodNumber": 0,
                                                     "betType": "MONEYLINE",
                                                     "team": "TEAM2"
                                                 };
