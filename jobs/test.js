@@ -184,7 +184,7 @@ const update = async() => {
                                                     }
                                                 };
     
-                                                // console.log(awayoption)
+                                                console.log(awayoption)
                                             } 
 
                                             if(home_odd != 0 && home_odd >= games[y].periods[0].moneyline.home) {
