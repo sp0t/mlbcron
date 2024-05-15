@@ -89,6 +89,7 @@ const update = async() => {
 
         for(var i = 0; i < res.rows.length; i++) {
             var startime = new Date(res.rows[i].start_time);
+            var betdate = res.rows[i].game_date.replace(/\//g, '-');
             if(getDiffernceDateWithMin(currentTime, startime) != -1) {
                 try {
                     var response = await axios.post('http://127.0.0.1:5000/getTarget', {
@@ -151,10 +152,6 @@ const update = async() => {
                         home_odd = decimalToAmerican(home_odd);
                     }
 
-                    console.log('away_odd', away_odd)
-                    console.log('home_odd', home_odd)
-
-
                     for (var x in events) {
                         for (var y in games) {
                             if(games[y].id != undefined && games[y].id == events[x].id) {
@@ -183,8 +180,21 @@ const update = async() => {
                                                         "team": "TEAM1",
                                                     }
                                                 };
-    
-                                                console.log(awayoption)
+                                                
+                                                try {
+                                                    var awayres = await axios.post("https://api.ps3838.com/v2/bets/place", awayoption);
+                                                } catch (error) {
+                                                    console.log(error)
+                                                    await client.end();
+                                                    return;
+                                                }
+
+                                                if(awayres.status == 'ACCEPTED') {
+                                                    await client.query(`INSERT INTO autobet_table (betdate, game, team1, team2, market, place, odds, price, target, stake, wins, placedat, status, site, betid) 
+                                                                        VALUES ('${betdate}', '${res.rows[i].away} vs ${res.rows[i].home}', '${res.rows[i].away}', '${res.rows[i].home}', '${awayres.straightBet.betType}', '${res.rows[i].away}', '${games[y].periods[0].moneyline.away}', '${awayres.straightBet.price}', '${away_odd}', '50', '${awayres.straightBet.win}', '${awayres.straightBet.placedAt}', '0', 'ps3838.com', '${awayres.straightBet.betId}');`);
+                                                    await client.query(`UPDATE odds_table SET auto_bet = '0' WHERE game_id = '${res.rows[i].game_id}';`);
+                                                }
+                                                
                                             } 
 
                                             if(home_odd != 0 && games[y].periods[0].moneyline.home >= home_odd) {
@@ -208,8 +218,20 @@ const update = async() => {
                                                         "team": "TEAM2",
                                                     }
                                                 };
-    
-                                                console.log(homeoption)
+
+                                                try {
+                                                    var homeres = await axios.post("https://api.ps3838.com/v2/bets/place", homeoption);
+                                                } catch (error) {
+                                                    console.log(error)
+                                                    await client.end();
+                                                    return;
+                                                }
+                                                
+                                                if(homeres.status == 'ACCEPTED') {
+                                                    await client.query(`INSERT INTO autobet_table (betdate, game, team1, team2, market, place, odds, price, target, stake, wins, placedat, status, site, betid) 
+                                                                        VALUES ('${betdate}', '${res.rows[i].away} vs ${res.rows[i].home}', '${res.rows[i].away}', '${res.rows[i].home}', '${awayres.straightBet.betType}', '${res.rows[i].home}', '${games[y].periods[0].moneyline.home}', '${awayres.straightBet.price}', '${home_odd}', '50', '${awayres.straightBet.win}', '${awayres.straightBet.placedAt}', '0', 'ps3838.com', '${awayres.straightBet.betId}');`);
+                                                    await client.query(`UPDATE odds_table SET auto_bet = '0' WHERE game_id = '${res.rows[i].game_id}';`);
+                                                }
                                             }
                                         }
                                     }                                        
@@ -218,10 +240,10 @@ const update = async() => {
                         }    
                     }
                 } else {
-                    var respond = await client.query(`UPDATE odds_table SET auto_bet = '0' WHERE game_id = '${res.rows[i].game_id}';`);
+                    await client.query(`UPDATE odds_table SET auto_bet = '0' WHERE game_id = '${res.rows[i].game_id}';`);
                 }
             } else {
-                var respond = await client.query(`UPDATE odds_table SET auto_bet = '0' WHERE game_id = '${res.rows[i].game_id}';`);
+                await client.query(`UPDATE odds_table SET auto_bet = '0' WHERE game_id = '${res.rows[i].game_id}';`);
             }
         } 
     }
