@@ -254,6 +254,8 @@ const update = async() => {
                                                     await client.end();
                                                     return;
                                                 }
+
+                                                console.log(homeres)
                                                 
                                                 if(homeres.status == 'ACCEPTED') {
                                                     await client.query(`INSERT INTO autobet_table (betdate, game, team1, team2, market, place, odds, price, target, stake, wins, placedat, status, site, betid) 
