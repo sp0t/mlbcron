@@ -129,9 +129,9 @@ const update = async() => {
                         home_prob = 0;
                     }
 
-                    if (response.data[0]['away_prob'] !== null && response.data[0]['away_prob'] < 48) {
+                    if (away_prob !== 0 && away_prob < 48) {
                         away_odd = 0;
-                    } else if (response.data[0]['away_prob'] === null) {
+                    } else if (away_prob === 0) {
                         away_odd = 0;
                     } else if (response.data[0]['la_away_odd'] !== null && response.data[0]['lb_away_odd'] !== null) {
                         away_odd = response.data[0]['la_away_odd'] * 0.8 + response.data[0]['lb_away_odd'] * 0.2;
@@ -141,9 +141,9 @@ const update = async() => {
                         away_odd = decimalToAmerican(away_odd);
                     }
 
-                    if (response.data[0]['home_prob'] !== null && response.data[0]['home_prob'] < 48) {
+                    if (home_prob !== 0 && home_prob < 48) {
                         home_odd = 0;
-                    } else if (response.data[0]['home_prob'] === null) {
+                    } else if (home_prob === 0) {
                         home_odd = 0;
                     } else if (response.data[0]['la_home_odd'] !== null && response.data[0]['lb_home_odd'] !== null) {
                         home_odd = response.data[0]['la_home_odd'] * 0.8 + response.data[0]['lb_home_odd'] * 0.2;
