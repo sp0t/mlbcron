@@ -112,9 +112,9 @@ const update = async() => {
                                                     'Authorization': token
                                                 },
                                                 params: {
-                                                    "oddsFormat": "languages",
+                                                    "oddsFormat": "AMERICAN",
                                                     "acceptBetterLine": true,
-                                                    "stake": 10.5,
+                                                    "stake": 50,
                                                     "winRiskStake": "RISK",
                                                     "lineId": games[y].periods[0].lineId,
                                                     "pitcher1MustStart": true,
