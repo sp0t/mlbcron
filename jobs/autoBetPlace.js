@@ -172,7 +172,7 @@ exports.autoBetPlace = async() => {
                                                     "oddsFormat": "AMERICAN",
                                                     "uniqueRequestId": uuid,
                                                     "acceptBetterLine": true,
-                                                    "stake": 50,
+                                                    "stake": 1500,
                                                     "winRiskStake": "RISK",
                                                     "lineId": games[y].periods[0].lineId,
                                                     "pitcher1MustStart": true,
