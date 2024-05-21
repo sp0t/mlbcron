@@ -166,7 +166,8 @@ const update = async() => {
                             if(games[y].id != undefined && games[y].id == events[x].id) {
                                 if(games[y].periods != undefined && games[y].periods[0].moneyline != undefined) {
                                     if(games[y].periods[0].moneyline.away != undefined && games[y].periods[0].moneyline.home != undefined) {
-                                        console.log(games[y].periods[0].moneyline.away, games[y].periods[0].moneyline.home)
+                                        console.log(events[x].away, events[x].home, events[x].starts)
+                                        console.log(res.rows[i].away, res.rows[i].home, res.rows[i].start_time)
                                         if(events[x].away == res.rows[i].away && events[x].home == res.rows[i].home && events[x].starts == res.rows[i].start_time) {
                                             console.log(games[y].periods[0].moneyline)
                                             if(away_odd != 0 && games[y].periods[0].moneyline.away >= away_odd) {
