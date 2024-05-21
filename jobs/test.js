@@ -159,6 +159,8 @@ const update = async() => {
                         home_odd = decimalToAmerican(home_odd);
                     }
 
+                    console.log(away_odd, home_odd, away_prob, home_prob)
+
                     for (var x in events) {
                         for (var y in games) {
                             if(games[y].id != undefined && games[y].id == events[x].id) {
@@ -185,32 +187,33 @@ const update = async() => {
                                                     "team": "TEAM1"
                                                 };
                                                 
-                                                try {
-                                                    var awayres = await axios.post("https://api.ps3838.com/v2/bets/place", awayoption, {headers: headers});
-                                                } catch (error) {
-                                                    if (error.response) {
-                                                        // The request was made and the server responded with a status code
-                                                        // that falls out of the range of 2xx
-                                                        console.log(error.response.data);
-                                                        console.log(error.response.status);
-                                                        console.log(error.response.headers);
-                                                    } else if (error.request) {
-                                                        // The request was made but no response was received
-                                                        console.log(error.request);
-                                                    } else {
-                                                        // Something happened in setting up the request that triggered an Error
-                                                        console.log('Error', error.message);
-                                                    }
-                                                    console.log(error.config);
-                                                    await client.end();
-                                                    return;
-                                                }
+                                                // try {
+                                                //     var awayres = await axios.post("https://api.ps3838.com/v2/bets/place", awayoption, {headers: headers});
+                                                // } catch (error) {
+                                                //     if (error.response) {
+                                                //         // The request was made and the server responded with a status code
+                                                //         // that falls out of the range of 2xx
+                                                //         console.log(error.response.data);
+                                                //         console.log(error.response.status);
+                                                //         console.log(error.response.headers);
+                                                //     } else if (error.request) {
+                                                //         // The request was made but no response was received
+                                                //         console.log(error.request);
+                                                //     } else {
+                                                //         // Something happened in setting up the request that triggered an Error
+                                                //         console.log('Error', error.message);
+                                                //     }
+                                                //     console.log(error.config);
+                                                //     await client.end();
+                                                //     return;
+                                                // }
 
-                                                if(awayres.data.status == 'ACCEPTED') {
-                                                    await client.query(`INSERT INTO autobet_table (betdate, game, team1, team2, market, place, odds, price, target, stake, wins, placedat, status, site, betid) 
-                                                                        VALUES ('${betdate}', '${res.rows[i].away} vs ${res.rows[i].home}', '${res.rows[i].away}', '${res.rows[i].home}', '${awayres.data.straightBet.betType}', '${res.rows[i].away}', '${games[y].periods[0].moneyline.away}', '${awayres.data.straightBet.price}', '${away_odd}', '50', '${awayres.data.straightBet.win}', '${awayres.data.straightBet.placedAt}', '0', 'ps3838.com', '${awayres.data.straightBet.betId}');`);
-                                                    await client.query(`UPDATE odds_table SET auto_bet = '0' WHERE game_id = '${res.rows[i].game_id}';`);
-                                                }
+                                                // if(awayres.data.status == 'ACCEPTED') {
+                                                //     await client.query(`INSERT INTO autobet_table (betdate, game, team1, team2, market, place, odds, price, target, stake, wins, placedat, status, site, betid) 
+                                                //                         VALUES ('${betdate}', '${res.rows[i].away} vs ${res.rows[i].home}', '${res.rows[i].away}', '${res.rows[i].home}', '${awayres.data.straightBet.betType}', '${res.rows[i].away}', '${games[y].periods[0].moneyline.away}', '${awayres.data.straightBet.price}', '${away_odd}', '50', '${awayres.data.straightBet.win}', '${awayres.data.straightBet.placedAt}', '0', 'ps3838.com', '${awayres.data.straightBet.betId}');`);
+                                                //     await client.query(`UPDATE odds_table SET auto_bet = '0' WHERE game_id = '${res.rows[i].game_id}';`);
+                                                // }
+                                                console.log(awayoption)
                                                 
                                             } 
 
@@ -234,32 +237,34 @@ const update = async() => {
                                                     "team": "TEAM2"
                                                 };
 
-                                                try {
-                                                    var homeres = await axios.post("https://api.ps3838.com/v2/bets/place", homeoption, {headers: headers});
-                                                } catch (error) {
-                                                    if (error.response) {
-                                                        // The request was made and the server responded with a status code
-                                                        // that falls out of the range of 2xx
-                                                        console.log(error.response.data);
-                                                        console.log(error.response.status);
-                                                        console.log(error.response.headers);
-                                                    } else if (error.request) {
-                                                        // The request was made but no response was received
-                                                        console.log(error.request);
-                                                    } else {
-                                                        // Something happened in setting up the request that triggered an Error
-                                                        console.log('Error', error.message);
-                                                    }
-                                                    console.log(error.config);
-                                                    await client.end();
-                                                    return;
-                                                }
+                                                console.log(homeoption)
+
+                                                // try {
+                                                //     var homeres = await axios.post("https://api.ps3838.com/v2/bets/place", homeoption, {headers: headers});
+                                                // } catch (error) {
+                                                //     if (error.response) {
+                                                //         // The request was made and the server responded with a status code
+                                                //         // that falls out of the range of 2xx
+                                                //         console.log(error.response.data);
+                                                //         console.log(error.response.status);
+                                                //         console.log(error.response.headers);
+                                                //     } else if (error.request) {
+                                                //         // The request was made but no response was received
+                                                //         console.log(error.request);
+                                                //     } else {
+                                                //         // Something happened in setting up the request that triggered an Error
+                                                //         console.log('Error', error.message);
+                                                //     }
+                                                //     console.log(error.config);
+                                                //     await client.end();
+                                                //     return;
+                                                // }
                                                 
-                                                if(homeres.data.status == 'ACCEPTED') {
-                                                    await client.query(`INSERT INTO autobet_table (betdate, game, team1, team2, market, place, odds, price, target, stake, wins, placedat, status, site, betid) 
-                                                                        VALUES ('${betdate}', '${res.rows[i].away} vs ${res.rows[i].home}', '${res.rows[i].away}', '${res.rows[i].home}', '${homeres.data.straightBet.betType}', '${res.rows[i].home}', '${games[y].periods[0].moneyline.home}', '${homeres.data.straightBet.price}', '${home_odd}', '50', '${homeres.data.straightBet.win}', '${homeres.data.straightBet.placedAt}', '0', 'ps3838.com', '${homeres.data.straightBet.betId}');`);
-                                                    await client.query(`UPDATE odds_table SET auto_bet = '0' WHERE game_id = '${res.rows[i].game_id}';`);
-                                                }
+                                                // if(homeres.data.status == 'ACCEPTED') {
+                                                //     await client.query(`INSERT INTO autobet_table (betdate, game, team1, team2, market, place, odds, price, target, stake, wins, placedat, status, site, betid) 
+                                                //                         VALUES ('${betdate}', '${res.rows[i].away} vs ${res.rows[i].home}', '${res.rows[i].away}', '${res.rows[i].home}', '${homeres.data.straightBet.betType}', '${res.rows[i].home}', '${games[y].periods[0].moneyline.home}', '${homeres.data.straightBet.price}', '${home_odd}', '50', '${homeres.data.straightBet.win}', '${homeres.data.straightBet.placedAt}', '0', 'ps3838.com', '${homeres.data.straightBet.betId}');`);
+                                                //     await client.query(`UPDATE odds_table SET auto_bet = '0' WHERE game_id = '${res.rows[i].game_id}';`);
+                                                // }
                                             }
                                         }
                                     }                                        
