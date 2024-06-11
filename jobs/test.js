@@ -29,9 +29,16 @@ const update = async() => {
     // var res = await client.query(`SELECT * FROM odds_table WHERE auto_bet = '1' AND state = '2';`);
     var res = await client.query(`SELECT * FROM odds_table WHERE auto_bet = '1';`);
     var stake_res = await client.query(`SELECT * FROM sato_stake_size WHERE status = '1';`);
-    console.log(stake_res.rows)
+    var stake_size = 1500;
 
-    
+    if(stake_res.rows != undefined && stake_res.rows.length > 0 ) {
+        stake_size = stake_res.rows[0].stake;
+    } else {
+        stake_size = 1500;
+    }
+
+    console.log(stake_size)
+  
     await client.end();
 }
 
