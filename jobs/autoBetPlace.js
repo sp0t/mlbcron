@@ -29,6 +29,15 @@ exports.autoBetPlace = async() => {
     // var res = await client.query(`SELECT * FROM odds_table WHERE auto_bet = '1' AND state = '2';`);
     var res = await client.query(`SELECT * FROM odds_table WHERE auto_bet = '1';`);
 
+    var stake_res = await client.query(`SELECT * FROM sato_stake_size WHERE status = '1';`);
+    var stake_size = 1500;
+
+    if(stake_res.rows != undefined && stake_res.rows.length > 0 ) {
+        stake_size = stake_res.rows[0].stake;
+    } else {
+        stake_size = 1500;
+    }
+
     if(res.rows != undefined) {
 
         var token = genToken();
@@ -172,7 +181,7 @@ exports.autoBetPlace = async() => {
                                                     "oddsFormat": "AMERICAN",
                                                     "uniqueRequestId": uuid,
                                                     "acceptBetterLine": true,
-                                                    "stake": 50,
+                                                    "stake": stake_size,
                                                     "winRiskStake": "RISK",
                                                     "lineId": games[y].periods[0].lineId,
                                                     "pitcher1MustStart": true,
@@ -208,7 +217,7 @@ exports.autoBetPlace = async() => {
 
                                                 if(awayres.data.status != 'PROCESSED_WITH_ERROR') {
                                                     await client.query(`INSERT INTO autobet_table (betdate, game, team1, team2, market, place, odds, price, target, stake, wins, placedat, status, site, betid) 
-                                                                        VALUES ('${betdate}', '${res.rows[i].away} vs ${res.rows[i].home}', '${res.rows[i].away}', '${res.rows[i].home}', '${awayres.data.straightBet.betType}', '${res.rows[i].away}', '${games[y].periods[0].moneyline.away}', '${awayres.data.straightBet.price}', '${away_odd}', '50', '${awayres.data.straightBet.win}', '${awayres.data.straightBet.placedAt}', '0', 'ps3838.com', '${awayres.data.straightBet.betId}');`);
+                                                                        VALUES ('${betdate}', '${res.rows[i].away} vs ${res.rows[i].home}', '${res.rows[i].away}', '${res.rows[i].home}', '${awayres.data.straightBet.betType}', '${res.rows[i].away}', '${games[y].periods[0].moneyline.away}', '${awayres.data.straightBet.price}', '${away_odd}', '${stake_size}', '${awayres.data.straightBet.win}', '${awayres.data.straightBet.placedAt}', '0', 'ps3838.com', '${awayres.data.straightBet.betId}');`);
                                                     await client.query(`UPDATE odds_table SET auto_bet = '0' WHERE game_id = '${res.rows[i].game_id}';`);
                                                 }
                                                 
@@ -221,7 +230,7 @@ exports.autoBetPlace = async() => {
                                                     "oddsFormat": "AMERICAN",
                                                     "uniqueRequestId": uuid,
                                                     "acceptBetterLine": true,
-                                                    "stake": 50,
+                                                    "stake": stake_size,
                                                     "winRiskStake": "RISK",
                                                     "lineId": games[y].periods[0].lineId,
                                                     "pitcher1MustStart": true,
@@ -257,7 +266,7 @@ exports.autoBetPlace = async() => {
                                                 
                                                 if(homeres.data.status != 'PROCESSED_WITH_ERROR') {
                                                     await client.query(`INSERT INTO autobet_table (betdate, game, team1, team2, market, place, odds, price, target, stake, wins, placedat, status, site, betid) 
-                                                                        VALUES ('${betdate}', '${res.rows[i].away} vs ${res.rows[i].home}', '${res.rows[i].away}', '${res.rows[i].home}', '${homeres.data.straightBet.betType}', '${res.rows[i].home}', '${games[y].periods[0].moneyline.home}', '${homeres.data.straightBet.price}', '${home_odd}', '50', '${homeres.data.straightBet.win}', '${homeres.data.straightBet.placedAt}', '0', 'ps3838.com', '${homeres.data.straightBet.betId}');`);
+                                                                        VALUES ('${betdate}', '${res.rows[i].away} vs ${res.rows[i].home}', '${res.rows[i].away}', '${res.rows[i].home}', '${homeres.data.straightBet.betType}', '${res.rows[i].home}', '${games[y].periods[0].moneyline.home}', '${homeres.data.straightBet.price}', '${home_odd}', '${stake_size}', '${homeres.data.straightBet.win}', '${homeres.data.straightBet.placedAt}', '0', 'ps3838.com', '${homeres.data.straightBet.betId}');`);
                                                     await client.query(`UPDATE odds_table SET auto_bet = '0' WHERE game_id = '${res.rows[i].game_id}';`);
                                                 }
                                             }
