@@ -9,8 +9,6 @@ const saveOdds = async() => {
 
     console.log('start');
 
-    await client.connect();
-
     var options = {
         headers: {
             'Content-Type': 'application/json',
