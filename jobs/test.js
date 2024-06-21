@@ -1,46 +1,65 @@
-require('dotenv').config()
 const axios = require("axios");
-const { dateToString, getDiffernceDateWithMin } = require('../function/time');
-const { decimalToAmerican, americanToDecimal } = require('../function/odds');
-const { Client } = require('pg');
-const { genToken, generateUUID } = require('../function/credential');
-const { randomUUID } = require('crypto');
+const { genToken } = require('../function/credential');
+const { getTodayStartTime, getTodayAt2PM, getDiffernceDateWithMin, getDiffernceDateWithHour } = require('../function/time');
 
-const update = async() => {
-
-    var away_odd = 0;
-    var home_odd = 0;
-    var away_prob = 0;
-    var home_prob = 0;
-
-    const client = new Client({
-        user: 'postgres',
-        host: 'localhost',
-        database: 'betmlb',
-        password: 'lucamlb123',
-        port: 5432,
-    })
-
+exports.saveOdds = async() => {
+    var token = genToken();
+    const openTime = getTodayAt2PM();
     const currentTime = new Date();
-    const gamedate = dateToString(currentTime);
 
     await client.connect();
 
-    // var res = await client.query(`SELECT * FROM odds_table WHERE auto_bet = '1' AND state = '2';`);
-    var res = await client.query(`SELECT * FROM odds_table WHERE auto_bet = '1';`);
-    var stake_res = await client.query(`SELECT * FROM sato_stake_size WHERE status = '1';`);
-    var stake_size = 1500;
-
-    if(stake_res.rows != undefined && stake_res.rows.length > 0 ) {
-        stake_size = stake_res.rows[0].stake;
-    } else {
-        stake_size = 1500;
+    var options = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+        },
+        params: {
+            sportId: 3,
+            leagueIds: 246,
+        }
+    };
+    
+    try {
+        var [retodd, retfixture] = await Promise.all([
+            axios.get("https://api.ps3838.com/v3/odds", options),
+            axios.get("https://api.ps3838.com/v3/fixtures", options)
+        ]);
+    } catch (error) {
+        console.log(error)
+        return;
     }
 
-    console.log(stake_size)
-  
+    if (retfixture.data.league == undefined)
+        return;
+
+    if (retfixture.data.league[0].events == undefined)
+        return;
+    
+    if (retfixture.data.league[0].events.length == 0)
+        return;
+
+    var events = retfixture.data.league[0].events;
+
+    if(retodd.data.leagues == undefined)
+        return;
+    
+    if(retodd.data.leagues[0].events == undefined)
+        return;
+
+    if(retodd.data.leagues[0].events.length == 0)
+        return;
+    
+    var games = retodd.data.leagues[0].events;
+
+    for (var x in events) {
+        for (var y in games) {
+            if(games[y].id != undefined && games[y].id == events[x].id)
+                if(games[y].periods != undefined && games[y].periods[0].moneyline != undefined) {
+                    console.log(games[y])
+                    console.log(events[x])
+                }
+        }       
+    }
     await client.end();
 }
-
-
-update();
