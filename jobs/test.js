@@ -52,6 +52,8 @@ exports.saveOdds = async() => {
     
     var games = retodd.data.leagues[0].events;
 
+    console.log('games');
+
     for (var x in events) {
         for (var y in games) {
             if(games[y].id != undefined && games[y].id == events[x].id)
