@@ -72,7 +72,7 @@ const saveOdds = async() => {
                         oddData['home_odd'] = 0;
                     }
 
-                    data.append(oddData);
+                    data.push(oddData);
                 }
         }       
     }
