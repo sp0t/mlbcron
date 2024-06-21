@@ -4,10 +4,7 @@ const { getTodayStartTime, getTodayAt2PM, getDiffernceDateWithMin, getDiffernceD
 
 const saveOdds = async() => {
     var token = genToken();
-    const openTime = getTodayAt2PM();
-    const currentTime = new Date();
-
-    console.log('start');
+    var data = []
 
     var options = {
         headers: {
@@ -52,17 +49,35 @@ const saveOdds = async() => {
     
     var games = retodd.data.leagues[0].events;
 
-    console.log('games');
-
     for (var x in events) {
+        var oddData = {};
         for (var y in games) {
             if(games[y].id != undefined && games[y].id == events[x].id)
                 if(games[y].periods != undefined && games[y].periods[0].moneyline != undefined) {
-                    console.log(games[y])
-                    console.log(events[x])
+                    oddData['starts'] = events[x].starts;
+                    oddData['away'] = events[x].away;
+                    oddData['home'] = events[x].home;
+                    if(games[y].periods[0].moneyline != undefined) {
+                        if(games[y].periods[0].moneyline.away != undefined)
+                            oddData['away_odd'] = games[y].periods[0].moneyline.away;
+                        else    
+                            oddData['away_odd'] = 0;
+
+                        if(games[y].periods[0].moneyline.home != undefined)
+                            oddData['home_odd'] = games[y].periods[0].moneyline.home
+                        else    
+                            oddData['home_odd'] = 0;
+                    } else {
+                        oddData['away_odd'] = 0;
+                        oddData['home_odd'] = 0;
+                    }
+
+                    data.append(oddData);
                 }
         }       
     }
+
+    console.log(data)
 }
 
 saveOdds();
