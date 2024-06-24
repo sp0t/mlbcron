@@ -1,10 +1,10 @@
 const axios = require("axios");
 const { genToken } = require('../function/credential');
-const { getTodayStartTime, getTodayAt2PM, getDiffernceDateWithMin, getDiffernceDateWithHour } = require('../function/time');
 
 const saveOdds = async() => {
     var token = genToken();
     var data = []
+    const socket = io('http://localhost:5000');
 
     var options = {
         headers: {
@@ -73,6 +73,13 @@ const saveOdds = async() => {
                     }
 
                     data.push(oddData);
+                    
+                    try {
+                        const response = await axios.post('http://127.0.0.1:5000/odds', { data });
+                        console.log('Data sent successfully:', response.data);
+                    } catch (error) {
+                        console.error('Error sending data:', error);
+                    }
                 }
         }       
     }
