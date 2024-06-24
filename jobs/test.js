@@ -1,5 +1,7 @@
 const axios = require("axios");
 const { genToken } = require('../function/credential');
+const io = require('socket.io-client');
+const socket = io('http://127.0.0.1:5000');
 
 const saveOdds = async() => {
     var token = genToken();
@@ -76,12 +78,14 @@ const saveOdds = async() => {
         }       
     }
 
-    try {
-        const response = await axios.post('http://127.0.0.1:5000/liveodds', { data: data });
-        console.log('Data sent successfully:', response.data);
-    } catch (error) {
-        console.error('Error sending data:', error);
-    }
+    // try {
+    //     const response = await axios.post('http://127.0.0.1:5000/liveodds', { data: data });
+    //     console.log('Data sent successfully:', response.data);
+    // } catch (error) {
+    //     console.error('Error sending data:', error);
+    // }
+
+    socket.emit('send_odd_values', data);
 
     console.log(data)
 }
