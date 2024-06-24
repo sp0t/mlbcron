@@ -1,11 +1,11 @@
 const axios = require("axios");
 const { genToken } = require('../function/credential');
 const io = require('socket.io-client');
-const socket = io('http://127.0.0.1:5000');
 
 const saveOdds = async() => {
     var token = genToken();
     var data = []
+    const socket = io('http://127.0.0.1:5000');
 
     var options = {
         headers: {
@@ -86,6 +86,7 @@ const saveOdds = async() => {
     // }
 
     socket.emit('send_odd_values', data);
+    socket.disconnect();
 
     console.log(data)
 }
