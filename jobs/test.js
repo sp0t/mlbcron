@@ -75,7 +75,7 @@ const saveOdds = async() => {
                     data.push(oddData);
                     
                     try {
-                        const response = await axios.post('http://127.0.0.1:5000/odds', { data });
+                        const response = await axios.post('http://127.0.0.1:5000/liveodds', { data });
                         console.log('Data sent successfully:', response.data);
                     } catch (error) {
                         console.error('Error sending data:', error);
