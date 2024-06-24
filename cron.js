@@ -36,7 +36,7 @@ const task5 = cron.schedule('*/2 * * * *', () => {
 scheduled: true
 });
 
-const task6 = cron.schedule('*/5 * * * * *', () => {
+const task6 = cron.schedule('* * * * * *', () => {
   console.log('task6.....started');
   sendOdds();
 }, {
