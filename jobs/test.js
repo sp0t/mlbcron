@@ -4,7 +4,6 @@ const { genToken } = require('../function/credential');
 const saveOdds = async() => {
     var token = genToken();
     var data = []
-    const socket = io('http://localhost:5000');
 
     var options = {
         headers: {
