@@ -85,6 +85,8 @@ exports.sendOdds = async() => {
     //     console.error('Error sending data:', error);
     // }
 
+    console.log('sendOdds', data);
+
     socket.emit('send_odd_values', data);
     socket.disconnect();
 }
