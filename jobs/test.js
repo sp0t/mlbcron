@@ -15,6 +15,7 @@ const saveOdds = async() => {
         params: {
             sportId: 3,
             leagueIds: 246,
+            isLive: 1
         }
     };
     
