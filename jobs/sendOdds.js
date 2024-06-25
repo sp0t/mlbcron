@@ -14,8 +14,7 @@ exports.sendOdds = async() => {
         },
         params: {
             sportId: 3,
-            leagueIds: 246,
-            isLive: 1
+            leagueIds: 246
         }
     };
     
