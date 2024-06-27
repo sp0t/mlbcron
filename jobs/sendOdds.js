@@ -1,12 +1,14 @@
 const axios = require("axios");
 const { genToken } = require('../function/credential');
-// const io = require('socket.io-client');
+const { getTodayStartTime, getTodayAt2PM, getDiffernceDateWithMin, getDiffernceDateWithHour } = require('../function/time');
+const { Client } = require('pg');
 
 exports.sendOdds = async() => {
     var token = genToken();
+    const startTime = getTodayStartTime();
+    const openTime = getTodayAt2PM();
+    const currentTime = new Date();
     var data = []
-    // const socket = io('http://127.0.0.1:5000');
-
     var options = {
         headers: {
             'Content-Type': 'application/json',
@@ -52,6 +54,7 @@ exports.sendOdds = async() => {
 
     for (var x in events) {
         var oddData = {};
+        var gamedate = new Date(events[x].starts);
         for (var y in games) {
             if(games[y].id != undefined && games[y].id == events[x].id)
                 if(games[y].periods != undefined && games[y].periods[0].moneyline != undefined) {
@@ -74,6 +77,36 @@ exports.sendOdds = async() => {
                     }
 
                     data.push(oddData);
+
+                    if(games[y].periods[0].moneyline.away != undefined && games[y].periods[0].moneyline.home != undefined) {
+                        if (getDiffernceDateWithHour(startTime, gamedate) != -1) {
+                            if(getDiffernceDateWithMin(openTime, currentTime) != -1 && getDiffernceDateWithMin(openTime, currentTime) < 2) {
+                                const client = new Client({
+                                    user: 'postgres',
+                                    host: 'localhost',
+                                    database: 'betmlb',
+                                    password: 'lucamlb123',
+                                    port: 5432,
+                                })
+
+                                await client.query(`UPDATE odds_table SET away_open = '${games[y].periods[0].moneyline.away}', home_open = '${games[y].periods[0].moneyline.home}' WHERE away = '${events[x].away}' AND home = '${events[x].home}' AND start_time = '${events[x].starts}';`);
+
+                                await client.end();
+                            }
+                            if(getDiffernceDateWithMin(currentTime, gamedate) != -1 && getDiffernceDateWithMin(currentTime, gamedate) < 2) {
+                                const client = new Client({
+                                    user: 'postgres',
+                                    host: 'localhost',
+                                    database: 'betmlb',
+                                    password: 'lucamlb123',
+                                    port: 5432,
+                                })
+
+                                await client.query(`UPDATE odds_table SET away_close = '${games[y].periods[0].moneyline.away}', home_close = '${games[y].periods[0].moneyline.home}' WHERE away = '${events[x].away}' AND home = '${events[x].home}' AND start_time = '${events[x].starts}';`);
+                                await client.end();
+                            }
+                        }
+                    }
                 }
         }       
     }
@@ -85,8 +118,5 @@ exports.sendOdds = async() => {
         console.error('Error sending data:', error);
     }
 
-    console.log('sendOdds', data);
-
-    // socket.emit('send_odd_values', data);
-    // socket.disconnect();
+    console.log('sendOdds', data)
 }

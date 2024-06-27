@@ -12,11 +12,11 @@ const task1 = cron.schedule('*/20 * * * *', () => {
   scheduled: true
 });
 
-const task2 = cron.schedule('*/2 * * * *', () => {
-    saveOdds();
-}, {
-  scheduled: true
-});
+// const task2 = cron.schedule('*/2 * * * *', () => {
+//     saveOdds();
+// }, {
+//   scheduled: true
+// });
 
 const task3 = cron.schedule('*/15 * * * * *', () => {
   slackNote();
@@ -44,7 +44,7 @@ scheduled: true
 });
 
 task1.start();
-task2.start();
+// task2.start();
 task3.start();
 task4.start();
 task5.start();
