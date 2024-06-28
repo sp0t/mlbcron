@@ -107,7 +107,7 @@ exports.sendOdds = async() => {
                                 console.log(`UPDATE odds_table SET away_close = '${games[y].periods[0].moneyline.away}', home_close = '${games[y].periods[0].moneyline.home}' WHERE away = '${events[x].away}' AND home = '${events[x].home}' AND start_time = '${events[x].starts}';`)
 
                                 await client.query(`UPDATE odds_table SET away_close = '${games[y].periods[0].moneyline.away}', home_close = '${games[y].periods[0].moneyline.home}' WHERE away = '${events[x].away}' AND home = '${events[x].home}' AND start_time = '${events[x].starts}';`);
-                                await client.end();
+                                // await client.end();
                             }
                         }
                     }
