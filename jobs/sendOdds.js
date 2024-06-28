@@ -80,7 +80,7 @@ exports.sendOdds = async() => {
 
                     if(games[y].periods[0].moneyline.away != undefined && games[y].periods[0].moneyline.home != undefined) {
                         if (getDiffernceDateWithHour(startTime, gamedate) != -1) {
-                            if(getDiffernceDateWithMin(openTime, currentTime) != -1 && getDiffernceDateWithMin(openTime, currentTime) < 2) {
+                            if(getDiffernceDateWithMin(openTime, currentTime) != -1 && getDiffernceDateWithMin(openTime, currentTime) < 40) {
                                 console.log(startTime, gamedate, openTime, currentTime)
                                 // const client = new Client({
                                 //     user: 'postgres',
