@@ -80,8 +80,7 @@ exports.sendOdds = async() => {
 
                     if(games[y].periods[0].moneyline.away != undefined && games[y].periods[0].moneyline.home != undefined) {
                         if (getDiffernceDateWithHour(startTime, gamedate) != -1) {
-                            if(getDiffernceDateWithMin(openTime, currentTime) != -1 && getDiffernceDateWithMin(openTime, currentTime) < 40) {
-                                console.log(startTime, gamedate, openTime, currentTime)
+                            if(getDiffernceDateWithMin(openTime, currentTime) != -1 && getDiffernceDateWithMin(openTime, currentTime) < 1) {
                                 const client = new Client({
                                     user: 'postgres',
                                     host: 'localhost',
@@ -90,22 +89,21 @@ exports.sendOdds = async() => {
                                     port: 5432,
                                 })
 
-                                // await client.query(`UPDATE odds_table SET away_open = '${games[y].periods[0].moneyline.away}', home_open = '${games[y].periods[0].moneyline.home}' WHERE away = '${events[x].away}' AND home = '${events[x].home}' AND start_time = '${events[x].starts}';`);
+                                await client.query(`UPDATE odds_table SET away_open = '${games[y].periods[0].moneyline.away}', home_open = '${games[y].periods[0].moneyline.home}' WHERE away = '${events[x].away}' AND home = '${events[x].home}' AND start_time = '${events[x].starts}';`);
 
                                 await client.end();
                             }
-                            if(getDiffernceDateWithMin(currentTime, gamedate) != -1 && getDiffernceDateWithMin(currentTime, gamedate) < 2) {
-                                console.log(startTime, gamedate, openTime, currentTime)
-                                // const client = new Client({
-                                //     user: 'postgres',
-                                //     host: 'localhost',
-                                //     database: 'betmlb',
-                                //     password: 'lucamlb123',
-                                //     port: 5432,
-                                // })
+                            if(getDiffernceDateWithMin(currentTime, gamedate) != -1 && getDiffernceDateWithMin(currentTime, gamedate) < 1) {
+                                const client = new Client({
+                                    user: 'postgres',
+                                    host: 'localhost',
+                                    database: 'betmlb',
+                                    password: 'lucamlb123',
+                                    port: 5432,
+                                })
 
-                                // await client.query(`UPDATE odds_table SET away_close = '${games[y].periods[0].moneyline.away}', home_close = '${games[y].periods[0].moneyline.home}' WHERE away = '${events[x].away}' AND home = '${events[x].home}' AND start_time = '${events[x].starts}';`);
-                                // await client.end();
+                                await client.query(`UPDATE odds_table SET away_close = '${games[y].periods[0].moneyline.away}', home_close = '${games[y].periods[0].moneyline.home}' WHERE away = '${events[x].away}' AND home = '${events[x].home}' AND start_time = '${events[x].starts}';`);
+                                await client.end();
                             }
                         }
                     }
