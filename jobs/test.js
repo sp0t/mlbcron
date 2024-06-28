@@ -69,13 +69,10 @@ const saveOdds = async() => {
                 if(games[y].id != undefined && games[y].id == events[x].id)
                     if(games[y].periods != undefined && games[y].periods[0].moneyline != undefined) {
                         if(games[y].periods[0].moneyline.away != undefined && games[y].periods[0].moneyline.home != undefined)
-                            console.log(games[y].periods[0].moneyline.away, games[y].periods[0].moneyline.home)
-                            /*
-                            if(getDiffernceDateWithMin(openTime, currentTime) != -1 && getDiffernceDateWithMin(openTime, currentTime) < 2)
-                                await client.query(`UPDATE odds_table SET away_open = '${games[y].periods[0].moneyline.away}', home_open = '${games[y].periods[0].moneyline.home}' WHERE away = '${events[x].away}' AND home = '${events[x].home}' AND start_time = '${events[x].starts}';`);
-                            if(getDiffernceDateWithMin(currentTime, gamedate) != -1 && getDiffernceDateWithMin(currentTime, gamedate) < 2)
-                                await client.query(`UPDATE odds_table SET away_close = '${games[y].periods[0].moneyline.away}', home_close = '${games[y].periods[0].moneyline.home}' WHERE away = '${events[x].away}' AND home = '${events[x].home}' AND start_time = '${events[x].starts}';`);
-                            */
+                            // if(getDiffernceDateWithMin(openTime, currentTime) != -1 && getDiffernceDateWithMin(openTime, currentTime) < 2)
+                            await client.query(`UPDATE odds_table SET away_open = '${games[y].periods[0].moneyline.away}', home_open = '${games[y].periods[0].moneyline.home}' WHERE away = '${events[x].away}' AND home = '${events[x].home}' AND start_time = '${events[x].starts}';`);
+                            // if(getDiffernceDateWithMin(currentTime, gamedate) != -1 && getDiffernceDateWithMin(currentTime, gamedate) < 2)
+                            //     await client.query(`UPDATE odds_table SET away_close = '${games[y].periods[0].moneyline.away}', home_close = '${games[y].periods[0].moneyline.home}' WHERE away = '${events[x].away}' AND home = '${events[x].home}' AND start_time = '${events[x].starts}';`);
                     }
             }       
         }
