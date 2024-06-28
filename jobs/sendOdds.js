@@ -89,6 +89,8 @@ exports.sendOdds = async() => {
                                     port: 5432,
                                 })
 
+                                console.log('insert odds.............')
+
                                 await client.query(`UPDATE odds_table SET away_open = '${games[y].periods[0].moneyline.away}', home_open = '${games[y].periods[0].moneyline.home}' WHERE away = '${events[x].away}' AND home = '${events[x].home}' AND start_time = '${events[x].starts}';`);
 
                                 await client.end();
