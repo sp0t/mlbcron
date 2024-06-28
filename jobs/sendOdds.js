@@ -93,6 +93,7 @@ exports.sendOdds = async() => {
 
                                 await client.end();
                             }
+                            console.log('currnet-gamedate', getDiffernceDateWithMin(currentTime, gamedate))
                             if(getDiffernceDateWithMin(currentTime, gamedate) != -1 && getDiffernceDateWithMin(currentTime, gamedate) < 1) {
                                 const client = new Client({
                                     user: 'postgres',
