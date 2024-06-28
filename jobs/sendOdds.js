@@ -79,7 +79,7 @@ exports.sendOdds = async() => {
                     data.push(oddData);
 
                     if(games[y].periods[0].moneyline.away != undefined && games[y].periods[0].moneyline.home != undefined) {
-                        console.log(startTime, gamedate, openTime)
+                        console.log(startTime, gamedate, openTime, currentTime)
                         if (getDiffernceDateWithHour(startTime, gamedate) != -1) {
                             if(getDiffernceDateWithMin(openTime, currentTime) != -1 && getDiffernceDateWithMin(openTime, currentTime) < 2) {
                                 const client = new Client({
