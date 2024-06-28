@@ -4,6 +4,14 @@ const { getTodayStartTime, getTodayAt2PM, getDiffernceDateWithMin, getDiffernceD
 const { Client } = require('pg');
 
 exports.sendOdds = async() => {
+    const client = new Client({
+        user: 'postgres',
+        host: 'localhost',
+        database: 'betmlb',
+        password: 'lucamlb123',
+        port: 5432,
+    })
+
     var token = genToken();
     const startTime = getTodayStartTime();
     const openTime = getTodayAt2PM();
@@ -81,39 +89,25 @@ exports.sendOdds = async() => {
                     if(games[y].periods[0].moneyline.away != undefined && games[y].periods[0].moneyline.home != undefined) {
                         if (getDiffernceDateWithHour(startTime, gamedate) != -1) {
                             if(getDiffernceDateWithMin(openTime, currentTime) != -1 && getDiffernceDateWithMin(openTime, currentTime) < 1) {
-                                const client = new Client({
-                                    user: 'postgres',
-                                    host: 'localhost',
-                                    database: 'betmlb',
-                                    password: 'lucamlb123',
-                                    port: 5432,
-                                })
 
                                 await client.query(`UPDATE odds_table SET away_open = '${games[y].periods[0].moneyline.away}', home_open = '${games[y].periods[0].moneyline.home}' WHERE away = '${events[x].away}' AND home = '${events[x].home}' AND start_time = '${events[x].starts}';`);
-
-                                await client.end();
                             }
                             console.log('currnet-gamedate', getDiffernceDateWithMin(currentTime, gamedate), events[x].away, events[x].home)
                             if(getDiffernceDateWithMin(currentTime, gamedate) != -1 && getDiffernceDateWithMin(currentTime, gamedate) < 15) {
                                 console.log('insert odds..................');
-                                const client = new Client({
-                                    user: 'postgres',
-                                    host: 'localhost',
-                                    database: 'betmlb',
-                                    password: 'lucamlb123',
-                                    port: 5432,
-                                })
 
                                 console.log(`UPDATE odds_table SET away_close = '${games[y].periods[0].moneyline.away}', home_close = '${games[y].periods[0].moneyline.home}' WHERE away = '${events[x].away}' AND home = '${events[x].home}' AND start_time = '${events[x].starts}';`)
 
                                 await client.query(`UPDATE odds_table SET away_close = '${games[y].periods[0].moneyline.away}', home_close = '${games[y].periods[0].moneyline.home}' WHERE away = '${events[x].away}' AND home = '${events[x].home}' AND start_time = '${events[x].starts}';`);
-                                // await client.end();
+                               
                             }
                         }
                     }
                 }
         }       
     }
+
+    await client.end();
 
     try {
         const response = await axios.post('http://127.0.0.1:5000/liveodds', { data: data });
