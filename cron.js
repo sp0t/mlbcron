@@ -12,11 +12,11 @@ const task1 = cron.schedule('*/20 * * * *', () => {
   scheduled: true
 });
 
-// const task2 = cron.schedule('*/2 * * * *', () => {
-//     saveOdds();
-// }, {
-//   scheduled: true
-// });
+const task2 = cron.schedule('*/2 * * * *', () => {
+    saveOdds();
+}, {
+  scheduled: true
+});
 
 const task3 = cron.schedule('*/15 * * * * *', () => {
   slackNote();
@@ -36,18 +36,18 @@ const task5 = cron.schedule('*/2 * * * *', () => {
 scheduled: true
 });
 
-const task6 = cron.schedule('*/4 * * * * *', () => {
-  console.log('task6.....started');
-  sendOdds();
-}, {
-scheduled: true
-});
+// const task6 = cron.schedule('*/4 * * * * *', () => {
+//   console.log('task6.....started');
+//   sendOdds();
+// }, {
+// scheduled: true
+// });
 
 task1.start();
-// task2.start();
+task2.start();
 task3.start();
 task4.start();
 task5.start();
-task6.start();
+// task6.start();
 
 console.log('Cron jobs have been initialized');
