@@ -51,11 +51,11 @@ const saveOdds = async() => {
     var games = retodd.data.leagues[0].events;
 
     for (var x in events) {
-        console.log(x);
+        console.log(events[x]);
         var oddData = {};
         var gamedate = new Date(events[x].starts);
         for (var y in games) {
-            console.log(y)
+            console.log(games[y])
             if(games[y].id != undefined && games[y].id == events[x].id)
                 if(games[y].periods != undefined && games[y].periods[0].moneyline != undefined) {
                     oddData['starts'] = events[x].starts;
