@@ -51,7 +51,6 @@ const saveOdds = async() => {
     var games = retodd.data.leagues[0].events;
 
     for (var x in events) {
-        console.log(events[x]);
         var oddData = {};
         var gamedate = new Date(events[x].starts);
         for (var y in games) {
@@ -75,6 +74,12 @@ const saveOdds = async() => {
                         oddData['away_odd'] = 0;
                         oddData['home_odd'] = 0;
                     }
+
+                    if(events[x].away == 'Baltimore Orioles' && events[x].home == 'Seattle Mariners')
+                        {
+                            console.log(oddData);
+                            console.log(events[x]);
+                        }
                     if (getDiffernceDateWithHour(gamedate, futureTime) != -1) {
                         data.push(oddData);
                     }
