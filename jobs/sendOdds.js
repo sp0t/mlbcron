@@ -54,7 +54,7 @@ exports.sendOdds = async() => {
     for (var x in events) {
         var oddData = {};
         var gamedate = new Date(events[x].starts);
-        if(events[x].liveStatus == 1 && events[x].resultingUnit == 'Regular') {
+        // if(events[x].liveStatus == 1 && events[x].resultingUnit == 'Regular') {
             for (var y in games) {
                 if(games[y].id != undefined && games[y].id == events[x].id)
                     if(games[y].periods != undefined && games[y].periods[0].moneyline != undefined) {
@@ -80,7 +80,7 @@ exports.sendOdds = async() => {
                             data.push(oddData);
                     }
             }       
-        }
+        // }
     }
 
     try {
