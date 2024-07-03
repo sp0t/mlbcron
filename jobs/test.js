@@ -51,9 +51,11 @@ const saveOdds = async() => {
     var games = retodd.data.leagues[0].events;
 
     for (var x in events) {
+        console.log(x);
         var oddData = {};
         var gamedate = new Date(events[x].starts);
         for (var y in games) {
+            console.log(y)
             if(games[y].id != undefined && games[y].id == events[x].id)
                 if(games[y].periods != undefined && games[y].periods[0].moneyline != undefined) {
                     oddData['starts'] = events[x].starts;
@@ -73,11 +75,7 @@ const saveOdds = async() => {
                         oddData['away_odd'] = 0;
                         oddData['home_odd'] = 0;
                     }
-
-                    console.log(oddData)
-                    console.log(futureTime)
                     if (getDiffernceDateWithHour(gamedate, futureTime) != -1) {
-                        console.log('insert')
                         data.push(oddData);
                     }
                 }
@@ -86,7 +84,6 @@ const saveOdds = async() => {
 
     try {
         const response = await axios.post('http://127.0.0.1:5000/liveodds', { data: data });
-        console.log('Data sent successfully:', response.data);
     } catch (error) {
         console.error('Error sending data:', error);
     }
