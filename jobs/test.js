@@ -1,24 +1,12 @@
 const axios = require("axios");
 const { genToken } = require('../function/credential');
-const { getTodayStartTime, getTodayAt2PM, getDiffernceDateWithMin, getDiffernceDateWithHour } = require('../function/time');
+const { getFutureTime, getTodayAt2PM, getDiffernceDateWithMin, getDiffernceDateWithHour } = require('../function/time');
 const { Client } = require('pg');
 
 const saveOdds = async() => {
     var token = genToken();
-    const startTime = getTodayStartTime();
-    const openTime = getTodayAt2PM();
-    const currentTime = new Date();
-
-    const client = new Client({
-        user: 'postgres',
-        host: 'localhost',
-        database: 'betmlb',
-        password: 'lucamlb123',
-        port: 5432,
-    })
-
-    await client.connect();
-
+    const futureTime = getFutureTime();
+    var data = []
     var options = {
         headers: {
             'Content-Type': 'application/json',
@@ -26,7 +14,7 @@ const saveOdds = async() => {
         },
         params: {
             sportId: 3,
-            leagueIds: 246,
+            leagueIds: 246
         }
     };
     
@@ -63,22 +51,45 @@ const saveOdds = async() => {
     var games = retodd.data.leagues[0].events;
 
     for (var x in events) {
+        var oddData = {};
         var gamedate = new Date(events[x].starts);
-        if (getDiffernceDateWithHour(startTime, gamedate) != -1) {
-            for (var y in games) {
-                if(games[y].id != undefined && games[y].id == events[x].id)
-                    if(games[y].periods != undefined && games[y].periods[0].moneyline != undefined) {
-                        if(games[y].periods[0].moneyline.away != undefined && games[y].periods[0].moneyline.home != undefined)
-                            // if(getDiffernceDateWithMin(openTime, currentTime) != -1 && getDiffernceDateWithMin(openTime, currentTime) < 2)
-                            await client.query(`UPDATE odds_table SET away_open = '${games[y].periods[0].moneyline.away}', home_open = '${games[y].periods[0].moneyline.home}' WHERE away = '${events[x].away}' AND home = '${events[x].home}' AND start_time = '${events[x].starts}';`);
-                            // if(getDiffernceDateWithMin(currentTime, gamedate) != -1 && getDiffernceDateWithMin(currentTime, gamedate) < 2)
-                            //     await client.query(`UPDATE odds_table SET away_close = '${games[y].periods[0].moneyline.away}', home_close = '${games[y].periods[0].moneyline.home}' WHERE away = '${events[x].away}' AND home = '${events[x].home}' AND start_time = '${events[x].starts}';`);
+        for (var y in games) {
+            if(games[y].id != undefined && games[y].id == events[x].id)
+                if(games[y].periods != undefined && games[y].periods[0].moneyline != undefined) {
+                    oddData['starts'] = events[x].starts;
+                    oddData['away'] = events[x].away;
+                    oddData['home'] = events[x].home;
+                    if(games[y].periods[0].moneyline != undefined) {
+                        if(games[y].periods[0].moneyline.away != undefined)
+                            oddData['away_odd'] = games[y].periods[0].moneyline.away;
+                        else    
+                            oddData['away_odd'] = 0;
+
+                        if(games[y].periods[0].moneyline.home != undefined)
+                            oddData['home_odd'] = games[y].periods[0].moneyline.home
+                        else    
+                            oddData['home_odd'] = 0;
+                    } else {
+                        oddData['away_odd'] = 0;
+                        oddData['home_odd'] = 0;
                     }
-            }       
-        }
+
+                    console.log(oddData)
+                    console.log(futureTime)
+                    if (getDiffernceDateWithHour(gamedate, futureTime) != -1) {
+                        console.log('insert')
+                        data.push(oddData);
+                    }
+                }
+        }       
     }
 
-    await client.end();
+    try {
+        const response = await axios.post('http://127.0.0.1:5000/liveodds', { data: data });
+        console.log('Data sent successfully:', response.data);
+    } catch (error) {
+        console.error('Error sending data:', error);
+    }
 }
 
 saveOdds();
