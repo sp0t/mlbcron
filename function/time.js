@@ -5,16 +5,20 @@ exports.getTodayStartTime = () => {
 }
 
 exports.getFutureTime = () => {
-    let now = new Date();
+    let todayUTC = new Date(); 
+    let estDate = new Date(todayUTC); 
+
+    estDate.setHours(todayUTC.getHours() - 5);
+
+    if (todayUTC.getHours() < 5) {
+    estDate.setDate(todayUTC.getDate() - 1);
+    }
     
-    let offset = (now.getTimezoneOffset() / 60) + 5; 
-    now.setHours(now.getHours() + offset); 
+    estDate.setHours(0, 0, 0, 0);
     
-    now.setHours(0, 0, 0, 0);
+    estDate.setDate(estDate.getDate() + 1);
     
-    now.setDate(now.getDate() + 1);
-    
-    let futureTime = new Date(now);
+    let futureTime = new Date(estDate);
     futureTime.setHours(4);
 
     return futureTime;
