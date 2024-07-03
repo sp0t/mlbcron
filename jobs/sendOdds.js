@@ -1,6 +1,6 @@
 const axios = require("axios");
 const { genToken } = require('../function/credential');
-const { getTodayStartTime, getTodayAt2PM, getDiffernceDateWithMin, getDiffernceDateWithHour } = require('../function/time');
+const { getFutureTime, getDiffernceDateWithHour } = require('../function/time');
 const { Client } = require('pg');
 
 exports.sendOdds = async() => {
@@ -13,9 +13,7 @@ exports.sendOdds = async() => {
     // })
 
     var token = genToken();
-    const startTime = getTodayStartTime();
-    const openTime = getTodayAt2PM();
-    const currentTime = new Date();
+    const futureTime = getFutureTime();
     var data = []
     var options = {
         headers: {
@@ -84,7 +82,9 @@ exports.sendOdds = async() => {
                         oddData['home_odd'] = 0;
                     }
 
-                    data.push(oddData);
+                    if (getDiffernceDateWithHour(gamedate, futureTime) != -1)
+                        data.push(oddData);
+
 
                     // if(games[y].periods[0].moneyline.away != undefined && games[y].periods[0].moneyline.home != undefined) {
                     //     if (getDiffernceDateWithHour(startTime, gamedate) != -1) {

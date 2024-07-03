@@ -4,6 +4,14 @@ exports.getTodayStartTime = () => {
     return today;
 }
 
+exports.getFutureTime = () => {
+    let futureTime = new Date();          
+    futureTime.setUTCHours(0, 0, 0, 0);  
+    futureTime.setUTCDate(futureTime.getUTCDate() + 1); 
+    futureTime.setUTCHours(futureTime.getUTCHours() + 4); 
+    return futureTime;
+}
+
 exports.getTodayAt2PM = () => {
     let today = new Date();
     today.setUTCHours(14, 0, 0, 0); 
