@@ -53,6 +53,7 @@ const saveOdds = async() => {
     for (var x in events) {
         var oddData = {};
         var gamedate = new Date(events[x].starts);
+        console.log(events[x]);
         for (var y in games) {
             // console.log(games[y])
             if(games[y].id != undefined && games[y].id == events[x].id)
@@ -75,11 +76,7 @@ const saveOdds = async() => {
                         oddData['home_odd'] = 0;
                     }
 
-                    if(events[x].away == 'Baltimore Orioles' && events[x].home == 'Seattle Mariners')
-                        {
-                            console.log(oddData);
-                            console.log(events[x]);
-                        }
+
                     if (getDiffernceDateWithHour(gamedate, futureTime) != -1) {
                         data.push(oddData);
                     }
