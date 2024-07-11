@@ -102,6 +102,7 @@ const saveOdds = async() => {
         var games = retodd.data.leagues[0].events;
 
         for(var i = 0; i < res.rows.length; i++) {
+            console.log(res.rows[i]);
             var startime = new Date(res.rows[i].start_time);
             var betdate = res.rows[i].game_date.replace(/\//g, '-');
             if(getDiffernceDateWithMin(currentTime, startime) != -1) {
