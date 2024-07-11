@@ -1,7 +1,9 @@
 const axios = require("axios");
-const { genToken } = require('../function/credential');
-const { getFutureTime, getTodayAt2PM, getDiffernceDateWithMin, getDiffernceDateWithHour } = require('../function/time');
+const { dateToString, getDiffernceDateWithMin } = require('../function/time');
+const { decimalToAmerican, americanToDecimal } = require('../function/odds');
 const { Client } = require('pg');
+const { genToken, generateUUID } = require('../function/credential');
+const { randomUUID } = require('crypto');
 
 const saveOdds = async() => {
     var away_odd = 0;
