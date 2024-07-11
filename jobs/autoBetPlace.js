@@ -175,7 +175,7 @@ exports.autoBetPlace = async() => {
                                     if(games[y].periods[0].moneyline.away != undefined && games[y].periods[0].moneyline.home != undefined) {
                                         if(events[x].away == res.rows[i].away && events[x].home == res.rows[i].home && events[x].starts == res.rows[i].start_time) {
                                             console.log(games[y].periods[0].moneyline)
-                                            var bet_res = await client.query(`SELECT * FROM autobet_table WHERE betdate = '${betdate}' AND team1 = '${res.rows[i].away} AND team2 = '${res.rows[i].home}';`);
+                                            var bet_res = await client.query(`SELECT * FROM autobet_table WHERE betdate = '${betdate}' AND team1 = '${res.rows[i].away}' AND team2 = '${res.rows[i].home}';`);
                                             if(bet_res.rows != undefined && bet_res.rows.length > 0) {
                                                 await client.query(`UPDATE odds_table SET auto_bet = '0' WHERE game_id = '${res.rows[i].game_id}';`);
                                                 continue;
