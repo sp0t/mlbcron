@@ -182,52 +182,52 @@ const saveOdds = async() => {
 
                                             if(away_odd != 0 && games[y].periods[0].moneyline.away >= away_odd) {       
                                                 console.log('bet at', events[x].away);                                      
-                                            //    var uuid = randomUUID();
-                                            //     var awayoption = {
-                                            //         "oddsFormat": "AMERICAN",
-                                            //         "uniqueRequestId": uuid,
-                                            //         "acceptBetterLine": true,
-                                            //         "stake": 50,
-                                            //         "winRiskStake": "RISK",
-                                            //         "lineId": games[y].periods[0].lineId,
-                                            //         "pitcher1MustStart": true,
-                                            //         "pitcher2MustStart": true,
-                                            //         "fillType": "NORMAL",
-                                            //         "sportId": 3,
-                                            //         "eventId": events[x].id,
-                                            //         "periodNumber": 0,
-                                            //         "betType": "MONEYLINE",
-                                            //         "team": "TEAM1"
-                                            //     };
+                                               var uuid = randomUUID();
+                                                var awayoption = {
+                                                    "oddsFormat": "AMERICAN",
+                                                    "uniqueRequestId": uuid,
+                                                    "acceptBetterLine": true,
+                                                    "stake": 50,
+                                                    "winRiskStake": "RISK",
+                                                    "lineId": games[y].periods[0].lineId,
+                                                    "pitcher1MustStart": true,
+                                                    "pitcher2MustStart": true,
+                                                    "fillType": "NORMAL",
+                                                    "sportId": 3,
+                                                    "eventId": events[x].id,
+                                                    "periodNumber": 0,
+                                                    "betType": "MONEYLINE",
+                                                    "team": "TEAM1"
+                                                };
                                                 
-                                            //     try {
-                                            //         var awayres = await axios.post("https://api.ps3838.com/v2/bets/place", awayoption, {headers: headers});
-                                            //     } catch (error) {
-                                            //         if (error.response) {
-                                            //             // The request was made and the server responded with a status code
-                                            //             // that falls out of the range of 2xx
-                                            //             console.log(error.response.data);
-                                            //             console.log(error.response.status);
-                                            //             console.log(error.response.headers);
-                                            //         } else if (error.request) {
-                                            //             // The request was made but no response was received
-                                            //             console.log(error.request);
-                                            //         } else {
-                                            //             // Something happened in setting up the request that triggered an Error
-                                            //             console.log('Error', error.message);
-                                            //         }
-                                            //         console.log(error.config);
-                                            //         await client.end();
-                                            //         return;
-                                                // }
+                                                try {
+                                                    var awayres = await axios.post("https://api.ps3838.com/v2/bets/place", awayoption, {headers: headers});
+                                                } catch (error) {
+                                                    if (error.response) {
+                                                        // The request was made and the server responded with a status code
+                                                        // that falls out of the range of 2xx
+                                                        console.log(error.response.data);
+                                                        console.log(error.response.status);
+                                                        console.log(error.response.headers);
+                                                    } else if (error.request) {
+                                                        // The request was made but no response was received
+                                                        console.log(error.request);
+                                                    } else {
+                                                        // Something happened in setting up the request that triggered an Error
+                                                        console.log('Error', error.message);
+                                                    }
+                                                    console.log(error.config);
+                                                    await client.end();
+                                                    return;
+                                                }
 
                                                 // await client.query(`INSERT INTO autobet_table (betdate, game, team1, team2, market, place, odds, price, target, stake, wins, placedat, status, site, betid) 
                                                 //                     VALUES ('${betdate}', '${res.rows[i].away} vs ${res.rows[i].home}', '${res.rows[i].away}', '${res.rows[i].home}', '${awayres.data.straightBet.betType}', '${res.rows[i].away}', '${games[y].periods[0].moneyline.away}', '${awayres.data.straightBet.price}', '${away_odd}', '${stake_size}', '${awayres.data.straightBet.win}', '${awayres.data.straightBet.placedAt}', '0', 'ps3838.com', '${awayres.data.straightBet.betId}');`);
                                                 
-                                                // await client.query(`INSERT INTO autobet_table (betdate, game, team1, team2, market, place, odds, price, target, stake, wins, placedat, status, site, betid) 
-                                                //     VALUES ('${betdate}', '${res.rows[i].away} vs ${res.rows[i].home}', '${res.rows[i].away}', '${res.rows[i].home}', '${awayres.data.straightBet.betType}', '${res.rows[i].away}', '${games[y].periods[0].moneyline.away}', '${awayres.data.straightBet.price}', '${away_odd}', '50', '${awayres.data.straightBet.win}', '${awayres.data.straightBet.placedAt}', '0', 'ps3838.com', '${awayres.data.straightBet.betId}');`);
+                                                await client.query(`INSERT INTO autobet_table (betdate, game, team1, team2, market, place, odds, price, target, stake, wins, placedat, status, site, betid) 
+                                                    VALUES ('${betdate}', '${res.rows[i].away} vs ${res.rows[i].home}', '${res.rows[i].away}', '${res.rows[i].home}', '${awayres.data.straightBet.betType}', '${res.rows[i].away}', '${games[y].periods[0].moneyline.away}', '${awayres.data.straightBet.price}', '${away_odd}', '50', '${awayres.data.straightBet.win}', '${awayres.data.straightBet.placedAt}', '0', 'ps3838.com', '${awayres.data.straightBet.betId}');`);
                                                                     
-                                                // await client.query(`UPDATE odds_table SET auto_bet = '0' WHERE game_id = '${res.rows[i].game_id}';`);
+                                                await client.query(`UPDATE odds_table SET auto_bet = '0' WHERE game_id = '${res.rows[i].game_id}';`);
                                                 
                                             } 
 
@@ -235,52 +235,52 @@ const saveOdds = async() => {
                                                 var uuid = randomUUID();
                                                 console.log('bet at', events[x].home);
 
-                                                // var homeoption = {
-                                                //     "oddsFormat": "AMERICAN",
-                                                //     "uniqueRequestId": uuid,
-                                                //     "acceptBetterLine": true,
-                                                //     "stake": 50,
-                                                //     "winRiskStake": "RISK",
-                                                //     "lineId": games[y].periods[0].lineId,
-                                                //     "pitcher1MustStart": true,
-                                                //     "pitcher2MustStart": true,
-                                                //     "fillType": "NORMAL",
-                                                //     "sportId": 3,
-                                                //     "eventId": events[x].id,
-                                                //     "periodNumber": 0,
-                                                //     "betType": "MONEYLINE",
-                                                //     "team": "TEAM2"
-                                                // };
+                                                var homeoption = {
+                                                    "oddsFormat": "AMERICAN",
+                                                    "uniqueRequestId": uuid,
+                                                    "acceptBetterLine": true,
+                                                    "stake": 50,
+                                                    "winRiskStake": "RISK",
+                                                    "lineId": games[y].periods[0].lineId,
+                                                    "pitcher1MustStart": true,
+                                                    "pitcher2MustStart": true,
+                                                    "fillType": "NORMAL",
+                                                    "sportId": 3,
+                                                    "eventId": events[x].id,
+                                                    "periodNumber": 0,
+                                                    "betType": "MONEYLINE",
+                                                    "team": "TEAM2"
+                                                };
 
-                                                // try {
-                                                //     var homeres = await axios.post("https://api.ps3838.com/v2/bets/place", homeoption, {headers: headers});
-                                                // } catch (error) {
-                                                //     if (error.response) {
-                                                //         // The request was made and the server responded with a status code
-                                                //         // that falls out of the range of 2xx
-                                                //         console.log(error.response.data);
-                                                //         console.log(error.response.status);
-                                                //         console.log(error.response.headers);
-                                                //     } else if (error.request) {
-                                                //         // The request was made but no response was received
-                                                //         console.log(error.request);
-                                                //     } else {
-                                                //         // Something happened in setting up the request that triggered an Error
-                                                //         console.log('Error', error.message);
-                                                //     }
-                                                //     console.log(error.config);
-                                                //     await client.end();
-                                                //     return;
-                                                // }
+                                                try {
+                                                    var homeres = await axios.post("https://api.ps3838.com/v2/bets/place", homeoption, {headers: headers});
+                                                } catch (error) {
+                                                    if (error.response) {
+                                                        // The request was made and the server responded with a status code
+                                                        // that falls out of the range of 2xx
+                                                        console.log(error.response.data);
+                                                        console.log(error.response.status);
+                                                        console.log(error.response.headers);
+                                                    } else if (error.request) {
+                                                        // The request was made but no response was received
+                                                        console.log(error.request);
+                                                    } else {
+                                                        // Something happened in setting up the request that triggered an Error
+                                                        console.log('Error', error.message);
+                                                    }
+                                                    console.log(error.config);
+                                                    await client.end();
+                                                    return;
+                                                }
                                                 
                                                 // await client.query(`INSERT INTO autobet_table (betdate, game, team1, team2, market, place, odds, price, target, stake, wins, placedat, status, site, betid) 
                                                 //                     VALUES ('${betdate}', '${res.rows[i].away} vs ${res.rows[i].home}', '${res.rows[i].away}', '${res.rows[i].home}', '${homeres.data.straightBet.betType}', '${res.rows[i].home}', '${games[y].periods[0].moneyline.home}', '${homeres.data.straightBet.price}', '${home_odd}', '${stake_size}', '${homeres.data.straightBet.win}', '${homeres.data.straightBet.placedAt}', '0', 'ps3838.com', '${homeres.data.straightBet.betId}');`);
 
-                                                // await client.query(`INSERT INTO autobet_table (betdate, game, team1, team2, market, place, odds, price, target, stake, wins, placedat, status, site, betid) 
-                                                //                         VALUES ('${betdate}', '${res.rows[i].away} vs ${res.rows[i].home}', '${res.rows[i].away}', '${res.rows[i].home}', '${homeres.data.straightBet.betType}', '${res.rows[i].home}', '${games[y].periods[0].moneyline.home}', '${homeres.data.straightBet.price}', '${home_odd}', '50', '${homeres.data.straightBet.win}', '${homeres.data.straightBet.placedAt}', '0', 'ps3838.com', '${homeres.data.straightBet.betId}');`);
+                                                await client.query(`INSERT INTO autobet_table (betdate, game, team1, team2, market, place, odds, price, target, stake, wins, placedat, status, site, betid) 
+                                                                        VALUES ('${betdate}', '${res.rows[i].away} vs ${res.rows[i].home}', '${res.rows[i].away}', '${res.rows[i].home}', '${homeres.data.straightBet.betType}', '${res.rows[i].home}', '${games[y].periods[0].moneyline.home}', '${homeres.data.straightBet.price}', '${home_odd}', '50', '${homeres.data.straightBet.win}', '${homeres.data.straightBet.placedAt}', '0', 'ps3838.com', '${homeres.data.straightBet.betId}');`);
 
                                                 
-                                                // await client.query(`UPDATE odds_table SET auto_bet = '0' WHERE game_id = '${res.rows[i].game_id}';`);
+                                                await client.query(`UPDATE odds_table SET auto_bet = '0' WHERE game_id = '${res.rows[i].game_id}';`);
                                             }
                                         }
                                     }                                        
