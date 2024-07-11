@@ -30,11 +30,11 @@ const task4 = cron.schedule('*/30 * * * *', () => {
   scheduled: true
 });
 
-const task5 = cron.schedule('*/4 * * * *', () => {
-  autoBetPlace();
-}, {
-scheduled: true
-});
+// const task5 = cron.schedule('*/4 * * * *', () => {
+//   autoBetPlace();
+// }, {
+// scheduled: true
+// });
 
 const task6 = cron.schedule('*/4 * * * * *', () => {
   console.log('task6.....started');
