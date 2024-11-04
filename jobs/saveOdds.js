@@ -36,29 +36,42 @@ exports.saveOdds = async() => {
             axios.get("https://api.ps3838.com/v3/fixtures", options)
         ]);
     } catch (error) {
-        console.log(error)
+        console.log(error);
+        await client.end();
         return;
     }
 
-    if (retfixture.data.league == undefined)
+    if (retfixture.data.league == undefined) {
+        await client.end();
         return;
+    }
 
-    if (retfixture.data.league[0].events == undefined)
+    if (retfixture.data.league[0].events == undefined) {
+        await client.end();
         return;
+    }
     
-    if (retfixture.data.league[0].events.length == 0)
+    if (retfixture.data.league[0].events.length == 0) {
+        await client.end();
         return;
+    }
 
     var events = retfixture.data.league[0].events;
 
-    if(retodd.data.leagues == undefined)
+    if(retodd.data.leagues == undefined) {
+        await client.end();
         return;
+    }
     
-    if(retodd.data.leagues[0].events == undefined)
+    if(retodd.data.leagues[0].events == undefined) {
+        await client.end();
         return;
+    }
 
-    if(retodd.data.leagues[0].events.length == 0)
+    if(retodd.data.leagues[0].events.length == 0) {
+        await client.end();
         return;
+    }
     
     var games = retodd.data.leagues[0].events;
 
