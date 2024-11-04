@@ -13,7 +13,6 @@ exports.autoBetSettle = async() => {
     await client.connect();
     var res_bettings = await client.query(`SELECT COUNT(betid), betdate, team1, team2, place FROM betting_table WHERE status = '0' AND regstate = '1' GROUP BY betdate, team1, team2, place;`);
     
-    console.log(res_bettings.rows, res_bettings.rows.length)
     if(res_bettings.rows != undefined && res_bettings.rows.length > 0) {
         for(var x in res_bettings.rows) {
             var gamedate = res_bettings.rows[x].betdate.replace(/-/g, '/');
@@ -24,6 +23,7 @@ exports.autoBetSettle = async() => {
                         gameid: res.rows[0].game_id,
                     });
                 } catch (error) {
+                    await client.end();
                     return;
                 }
 
@@ -53,6 +53,7 @@ exports.autoBetSettle = async() => {
                                     place: res_bettings.rows[x].place
                                 });
                             } catch (error) {
+                                await client.end();
                                 return;
                             }
 

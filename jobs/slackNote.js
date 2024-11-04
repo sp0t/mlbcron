@@ -55,6 +55,7 @@ exports.slackNote = async() => {
                             gameid: res.rows[x].game_id,
                         });
                 } catch (error) {
+                    await client.end();
                     return;
                 }
 

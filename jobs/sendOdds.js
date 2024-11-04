@@ -1,8 +1,6 @@
 const axios = require("axios");
 const { genToken } = require('../function/credential');
 const { getFutureTime, getDiffernceDateWithHour } = require('../function/time');
-const { Client } = require('pg');
-
 exports.sendOdds = async() => {
 
     var token = genToken();
