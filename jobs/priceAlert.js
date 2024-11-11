@@ -38,30 +38,30 @@ exports.priceAlert = async() => {
         price_request = res.rows;
         
         for(var z in price_request) {
-            console.log(price_request[z].away_full_name);
             price_request[z].away_full_name = String(price_request[z].away_full_name)
-            .replaceAll('å', 'a')
-            .replaceAll('ä', 'a')
-            .replaceAll('ö', 'o')
-            .replaceAll('ü', 'u')
-            .replaceAll('é', 'e')
-            .replaceAll('è', 'e')
-            .replaceAll('janmark-nylen', 'janmark')
-            .replaceAll('iakovlev', 'yakovlev')
-            .replaceAll('vorobyov', 'vorobyev')
-            .replaceAll('\x1A', 'c');
+                .replace(/å/g, 'a')
+                .replace(/ä/g, 'a')
+                .replace(/ö/g, 'o')
+                .replace(/ü/g, 'u')
+                .replace(/é/g, 'e')
+                .replace(/è/g, 'e')
+                .replace(/janmark-nylen/g, 'janmark')
+                .replace(/iakovlev/g, 'yakovlev')
+                .replace(/vorobyov/g, 'vorobyev')
+                .replace(/\x1A/g, 'c');
 
             price_request[z].home_full_name = String(price_request[z].home_full_name)
-            .replaceAll('å', 'a')
-            .replaceAll('ä', 'a')
-            .replaceAll('ö', 'o')
-            .replaceAll('ü', 'u')
-            .replaceAll('é', 'e')
-            .replaceAll('è', 'e')
-            .replaceAll('janmark-nylen', 'janmark')
-            .replaceAll('iakovlev', 'yakovlev')
-            .replaceAll('vorobyov', 'vorobyev')
-            .replaceAll('\x1A', 'c');
+                .replace(/å/g, 'a')
+                .replace(/ä/g, 'a')
+                .replace(/ö/g, 'o')
+                .replace(/ü/g, 'u')
+                .replace(/é/g, 'e')
+                .replace(/è/g, 'e')
+                .replace(/janmark-nylen/g, 'janmark')
+                .replace(/iakovlev/g, 'yakovlev')
+                .replace(/vorobyov/g, 'vorobyev')
+                .replace(/\x1A/g, 'c');
+
         }
 
         var options = {
