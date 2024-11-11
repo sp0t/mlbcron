@@ -34,11 +34,11 @@ exports.priceAlert = async() => {
 
     await client.connect();
     var res = await client.query(`SELECT * FROM price_table INNER JOIN schedule ON price_table.game_id = schedule.game_id WHERE price_table.status = '0';`);
-    console.log(res.rows);
     if(res.rows != undefined && res.rows.length > 0 ) {
         price_request = res.rows;
-
+        
         for(var z in price_request) {
+            console.log(price_request[z].away_full_name);
             price_request[z].away_full_name = price_request[z].away_full_name
             .replaceAll('å', 'a')
             .replaceAll('ä', 'a')
