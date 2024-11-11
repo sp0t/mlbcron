@@ -39,7 +39,7 @@ exports.priceAlert = async() => {
         
         for(var z in price_request) {
             console.log(price_request[z].away_full_name);
-            price_request[z].away_full_name = price_request[z].away_full_name
+            price_request[z].away_full_name = String(price_request[z].away_full_name)
             .replaceAll('å', 'a')
             .replaceAll('ä', 'a')
             .replaceAll('ö', 'o')
@@ -51,7 +51,7 @@ exports.priceAlert = async() => {
             .replaceAll('vorobyov', 'vorobyev')
             .replaceAll('\x1A', 'c');
 
-            price_request[z].home_full_name = price_request[z].home_full_name
+            price_request[z].home_full_name = String(price_request[z].home_full_name)
             .replaceAll('å', 'a')
             .replaceAll('ä', 'a')
             .replaceAll('ö', 'o')
