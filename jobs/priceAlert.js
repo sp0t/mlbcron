@@ -34,6 +34,7 @@ exports.priceAlert = async() => {
 
     await client.connect();
     var res = await client.query(`SELECT * FROM price_table INNER JOIN schedule ON price_table.game_id = schedule.game_id WHERE price_table.status = '0';`);
+    console.log(res.rows);
     if(res.rows != undefined && res.rows.length > 0 ) {
         price_request = res.rows;
 
