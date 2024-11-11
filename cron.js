@@ -5,6 +5,7 @@ const { saveOdds } = require('./jobs/saveOdds')
 const { slackNote } = require('./jobs/slackNote')
 const { update } = require('./jobs/update')
 const { sendOdds } = require('./jobs/sendOdds')
+const { priceAlert } = require('./jobs/priceAlert')
 
 const task1 = cron.schedule('*/20 * * * *', () => {
     autoBetSettle();
@@ -39,8 +40,15 @@ scheduled: true
 const task6 = cron.schedule('*/4 * * * * *', () => {
   console.log('task6.....started');
   sendOdds();
-}, {
-scheduled: true
+  }, {
+  scheduled: true
+});
+
+const task7 = cron.schedule('*/10 * * * * *', () => {
+  console.log('task7.....started');
+  priceAlert();
+  }, {
+  scheduled: true
 });
 
 task1.start();
@@ -49,5 +57,6 @@ task3.start();
 task4.start();
 task5.start();
 task6.start();
+task7.start();
 
 console.log('Cron jobs have been initialized');

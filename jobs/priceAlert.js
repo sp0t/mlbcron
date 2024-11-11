@@ -21,13 +21,13 @@ const sendMessage = async(channelId, messageText) => {
     }
 }
 
-const slackPrice = async() => {
+exports.priceAlert = async() => {
     var token = genToken();
 
     const client = new Client({
         user: 'postgres',
         host: 'localhost',
-        database: 'betnhl',
+        database: 'betnhl_new',
         password: 'lucamlb123',
         port: 5432,
     })
@@ -151,5 +151,3 @@ const slackPrice = async() => {
 
     await client.end();
 }
-
-slackPrice();

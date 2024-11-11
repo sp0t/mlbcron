@@ -5,7 +5,7 @@ const { WebClient } = require('@slack/web-api');
 const { Client } = require('pg');
 
 // Initialize a Slack client with your bot's token.
-const slackClient = new WebClient(process.env.SLACK_TOKEN);
+const slackClient = new WebClient(process.env.LINEUP_TOKEN);
 
 
 const sendMessage = async(channelId, messageText) => {
@@ -68,7 +68,7 @@ exports.slackNote = async() => {
                             var respond = await client.query(`UPDATE odds_table SET state = '1' WHERE game_id = '${res.rows[x].game_id}';`);
                         
                         if(response.data.away != 0 && response.data.home != 0 || res.rows[x].state == 0)
-                            await sendMessage(process.env.SLACK_CHANNEL_ID, message);
+                            await sendMessage(process.env.SLACK_LINEUP_ID, message);
                         }
                     }
                 }
