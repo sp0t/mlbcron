@@ -21,13 +21,13 @@ const sendMessage = async(channelId, messageText) => {
     }
 }
 
-const slackPrice = async() => {
+const priceAlert = async() => {
     var token = genToken();
 
     const client = new Client({
         user: 'postgres',
         host: 'localhost',
-        database: 'betnhl',
+        database: 'betnhl_new',
         password: 'lucamlb123',
         port: 5432,
     })
@@ -36,31 +36,32 @@ const slackPrice = async() => {
     var res = await client.query(`SELECT * FROM price_table INNER JOIN schedule ON price_table.game_id = schedule.game_id WHERE price_table.status = '0';`);
     if(res.rows != undefined && res.rows.length > 0 ) {
         price_request = res.rows;
-
+        
         for(var z in price_request) {
-            price_request[z].away_full_name = price_request[z].away_full_name
-            .replaceAll('å', 'a')
-            .replaceAll('ä', 'a')
-            .replaceAll('ö', 'o')
-            .replaceAll('ü', 'u')
-            .replaceAll('é', 'e')
-            .replaceAll('è', 'e')
-            .replaceAll('janmark-nylen', 'janmark')
-            .replaceAll('iakovlev', 'yakovlev')
-            .replaceAll('vorobyov', 'vorobyev')
-            .replaceAll('\x1A', 'c');
+            price_request[z].away_full_name = String(price_request[z].away_full_name)
+                .replace(/å/g, 'a')
+                .replace(/ä/g, 'a')
+                .replace(/ö/g, 'o')
+                .replace(/ü/g, 'u')
+                .replace(/é/g, 'e')
+                .replace(/è/g, 'e')
+                .replace(/janmark-nylen/g, 'janmark')
+                .replace(/iakovlev/g, 'yakovlev')
+                .replace(/vorobyov/g, 'vorobyev')
+                .replace(/\x1A/g, 'c');
 
-            price_request[z].home_full_name = price_request[z].home_full_name
-            .replaceAll('å', 'a')
-            .replaceAll('ä', 'a')
-            .replaceAll('ö', 'o')
-            .replaceAll('ü', 'u')
-            .replaceAll('é', 'e')
-            .replaceAll('è', 'e')
-            .replaceAll('janmark-nylen', 'janmark')
-            .replaceAll('iakovlev', 'yakovlev')
-            .replaceAll('vorobyov', 'vorobyev')
-            .replaceAll('\x1A', 'c');
+            price_request[z].home_full_name = String(price_request[z].home_full_name)
+                .replace(/å/g, 'a')
+                .replace(/ä/g, 'a')
+                .replace(/ö/g, 'o')
+                .replace(/ü/g, 'u')
+                .replace(/é/g, 'e')
+                .replace(/è/g, 'e')
+                .replace(/janmark-nylen/g, 'janmark')
+                .replace(/iakovlev/g, 'yakovlev')
+                .replace(/vorobyov/g, 'vorobyev')
+                .replace(/\x1A/g, 'c');
+
         }
 
         var options = {
@@ -130,17 +131,19 @@ const slackPrice = async() => {
                                     if(events[x].away >= price_request[k].awayprice && price_request[k].awaystate == '0') {
                                         var message = `${events[x].away} @ ${events[x].home}\n The price you requested on ${events[x].away} (${price_request[k].awayprice}) is now available ${price_request[k].bet == 1? 'and autobet will bet as requested': ''}`;
                                         await sendMessage(process.env.SLACK_PRICE_ID, message);
-                                        await client.query(`UPDATE price_table SET status = '1' WHERE game_id = '${price_request[k].game_id}';`);
+                                        await client.query(`UPDATE price_table SET awaystate = '1' WHERE game_id = '${price_request[k].game_id}';`);
                                         if(price_request[k].homestate == '1')
-                                            await client.query(`UPDATE price_table SET awaystate = '1' WHERE game_id = '${price_request[k].game_id}';`);
+                                            await client.query(`UPDATE price_table SET status = '1' WHERE game_id = '${price_request[k].game_id}';`);
                                     }
 
                                     if(events[x].home >= price_request[k].homeprice && price_request[k].homestate == '0') {
                                         var message = `${events[x].away} @ ${events[x].home}\n The price you requested on ${events[x].home} (${price_request[k].homeprice}) is now available ${price_request[k].bet == 1? 'and autobet will bet as requested': ''}`;
                                         await sendMessage(process.env.SLACK_PRICE_ID, message);
                                         await client.query(`UPDATE price_table SET homestate = '1' WHERE game_id = '${price_request[k].game_id}';`);
-                                        if(price_request[k].awaystate == '1' || events[x].away >= price_request[k].awayprice )
+                                        if(price_request[k].awaystate == '1' || events[x].away >= price_request[k].awayprice ) {
+                                            await client.query(`UPDATE price_table SET awaystate = '1' WHERE game_id = '${price_request[k].game_id}';`);
                                             await client.query(`UPDATE price_table SET status = '1' WHERE game_id = '${price_request[k].game_id}';`);
+                                        }
                                     }
                                 }
                         }
@@ -152,4 +155,4 @@ const slackPrice = async() => {
     await client.end();
 }
 
-slackPrice();
+priceAlert()
