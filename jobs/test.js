@@ -127,8 +127,7 @@ const priceAlert = async() => {
                         if(games[y].periods[0].moneyline.away != undefined && games[y].periods[0].moneyline.home != undefined)
                             for (var k in price_request) {
                                 if(price_request[k].away_full_name == events[x].away && price_request[k].home_full_name == events[x].home) {
-                                    console.log(price_request[k].awaystate);
-                                    if(games[y].periods[0].moneyline.away >= price_request[k].awayprice && price_request[k].awaystate == '0') {
+                                    if(games[y].periods[0].moneyline.away >= parseInt(price_request[k].awayprice) && price_request[k].awaystate == '0' && parseInt(price_request[k].awayprice) != 0) {
                                         console.log(events[x].away);
                                         console.log(price_request[k].awayprice);
                                         console.log(games[y].periods[0].moneyline.away);
@@ -139,7 +138,7 @@ const priceAlert = async() => {
                                         //     await client.query(`UPDATE price_table SET status = '1' WHERE game_id = '${price_request[k].game_id}';`);
                                     }
 
-                                    if(games[y].periods[0].moneyline.home >= price_request[k].homeprice && price_request[k].homestate == '0') {
+                                    if(games[y].periods[0].moneyline.home >= parseInt(price_request[k].homeprice) && price_request[k].homestate == '0' && parseInt(price_request[k].homeprice) != 0) {
                                         console.log(events[x].home);
                                         console.log(price_request[k].homeprice);
                                         console.log(games[y].periods[0].moneyline.home);
