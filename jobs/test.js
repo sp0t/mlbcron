@@ -128,7 +128,7 @@ const priceAlert = async() => {
                             for (var k in price_request) {
                                 if(price_request[k].away_full_name == events[x].away && price_request[k].home_full_name == events[x].home) {
                                     console.log(price_request[k].awaystate);
-                                    if(events[x].away >= price_request[k].awayprice && price_request[k].awaystate == '0') {
+                                    if(games[y].periods[0].moneyline.away >= price_request[k].awayprice && price_request[k].awaystate == '0') {
                                         console.log(events[x].away);
                                         console.log(price_request[k].awayprice);
                                         // var message = `${events[x].away} @ ${events[x].home}\n The price you requested on ${events[x].away} (${price_request[k].awayprice}) is now available ${price_request[k].bet == 1? 'and autobet will bet as requested': ''}`;
@@ -138,7 +138,7 @@ const priceAlert = async() => {
                                         //     await client.query(`UPDATE price_table SET status = '1' WHERE game_id = '${price_request[k].game_id}';`);
                                     }
 
-                                    if(events[x].home >= price_request[k].homeprice && price_request[k].homestate == '0') {
+                                    if(games[y].periods[0].moneyline.home >= price_request[k].homeprice && price_request[k].homestate == '0') {
                                         console.log(events[x].home);
                                         console.log(price_request[k].homeprice);
                                         // var message = `${events[x].away} @ ${events[x].home}\n The price you requested on ${events[x].home} (${price_request[k].homeprice}) is now available ${price_request[k].bet == 1? 'and autobet will bet as requested': ''}`;
