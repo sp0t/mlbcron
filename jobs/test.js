@@ -129,21 +129,25 @@ const priceAlert = async() => {
                                 if(price_request[k].away_full_name == events[x].away && price_request[k].home_full_name == events[x].home) {
                                     console.log(price_request[k].awaystate);
                                     if(events[x].away >= price_request[k].awayprice && price_request[k].awaystate == '0') {
-                                        var message = `${events[x].away} @ ${events[x].home}\n The price you requested on ${events[x].away} (${price_request[k].awayprice}) is now available ${price_request[k].bet == 1? 'and autobet will bet as requested': ''}`;
-                                        await sendMessage(process.env.SLACK_PRICE_ID, message);
-                                        await client.query(`UPDATE price_table SET awaystate = '1' WHERE game_id = '${price_request[k].game_id}';`);
-                                        if(price_request[k].homestate == '1')
-                                            await client.query(`UPDATE price_table SET status = '1' WHERE game_id = '${price_request[k].game_id}';`);
+                                        console.log(events[x].away);
+                                        console.log(price_request[k].awayprice);
+                                        // var message = `${events[x].away} @ ${events[x].home}\n The price you requested on ${events[x].away} (${price_request[k].awayprice}) is now available ${price_request[k].bet == 1? 'and autobet will bet as requested': ''}`;
+                                        // await sendMessage(process.env.SLACK_PRICE_ID, message);
+                                        // await client.query(`UPDATE price_table SET awaystate = '1' WHERE game_id = '${price_request[k].game_id}';`);
+                                        // if(price_request[k].homestate == '1')
+                                        //     await client.query(`UPDATE price_table SET status = '1' WHERE game_id = '${price_request[k].game_id}';`);
                                     }
 
                                     if(events[x].home >= price_request[k].homeprice && price_request[k].homestate == '0') {
-                                        var message = `${events[x].away} @ ${events[x].home}\n The price you requested on ${events[x].home} (${price_request[k].homeprice}) is now available ${price_request[k].bet == 1? 'and autobet will bet as requested': ''}`;
-                                        await sendMessage(process.env.SLACK_PRICE_ID, message);
-                                        await client.query(`UPDATE price_table SET homestate = '1' WHERE game_id = '${price_request[k].game_id}';`);
-                                        if(price_request[k].awaystate == '1' || events[x].away >= price_request[k].awayprice ) {
-                                            await client.query(`UPDATE price_table SET awaystate = '1' WHERE game_id = '${price_request[k].game_id}';`);
-                                            await client.query(`UPDATE price_table SET status = '1' WHERE game_id = '${price_request[k].game_id}';`);
-                                        }
+                                        console.log(events[x].home);
+                                        console.log(price_request[k].homeprice);
+                                        // var message = `${events[x].away} @ ${events[x].home}\n The price you requested on ${events[x].home} (${price_request[k].homeprice}) is now available ${price_request[k].bet == 1? 'and autobet will bet as requested': ''}`;
+                                        // await sendMessage(process.env.SLACK_PRICE_ID, message);
+                                        // await client.query(`UPDATE price_table SET homestate = '1' WHERE game_id = '${price_request[k].game_id}';`);
+                                        // if(price_request[k].awaystate == '1' || events[x].away >= price_request[k].awayprice ) {
+                                        //     await client.query(`UPDATE price_table SET awaystate = '1' WHERE game_id = '${price_request[k].game_id}';`);
+                                        //     await client.query(`UPDATE price_table SET status = '1' WHERE game_id = '${price_request[k].game_id}';`);
+                                        // }
                                     }
                                 }
                         }
