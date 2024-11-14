@@ -128,6 +128,7 @@ exports.priceAlert = async() => {
                             for (var k in price_request) {
                                 if(price_request[k].away_full_name == events[x].away && price_request[k].home_full_name == events[x].home) {
                                     var startDate = new Date(events[x].starts);
+                                    console.log(events[x])
                                     var currentDate = new Date();
                                     if (currentDate.getTime() <= startDate.getTime()) {
                                         if(games[y].periods[0].moneyline.away >= parseInt(price_request[k].awayprice) && price_request[k].awaystate == '0' && parseInt(price_request[k].awayprice) != 0) {
