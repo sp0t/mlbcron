@@ -127,27 +127,34 @@ const priceAlert = async() => {
                         if(games[y].periods[0].moneyline.away != undefined && games[y].periods[0].moneyline.home != undefined)
                             for (var k in price_request) {
                                 if(price_request[k].away_full_name == events[x].away && price_request[k].home_full_name == events[x].home) {
-                                    if(games[y].periods[0].moneyline.away >= parseInt(price_request[k].awayprice) && price_request[k].awaystate == '0' && parseInt(price_request[k].awayprice) != 0) {
-                                        var message = `${events[x].away} @ ${events[x].home}\n The price you requested on ${events[x].away} (${price_request[k].awayprice}) is now available ${parseInt(price_request[k].bet) == 1? 'and autobet will bet as requested': ''}`;
-                                        console.log(events[x]);
-                                        console.log(price_request[k]);
-                                        // await sendMessage(process.env.SLACK_PRICE_ID, message);
-                                        // await client.query(`UPDATE price_table SET awaystate = '1' WHERE game_id = '${price_request[k].game_id}';`);
-                                        // if(price_request[k].homestate == '1')
-                                        //     await client.query(`UPDATE price_table SET status = '1' WHERE game_id = '${price_request[k].game_id}';`);
-                                    }
-
-                                    if(games[y].periods[0].moneyline.home >= parseInt(price_request[k].homeprice) && price_request[k].homestate == '0' && parseInt(price_request[k].homeprice) != 0) {
-                                        var message = `${events[x].away} @ ${events[x].home}\n The price you requested on ${events[x].home} (${price_request[k].homeprice}) is now available ${parseInt(price_request[k].bet) == 1? 'and autobet will bet as requested': ''}`;
-                                        console.log(events[x]);
-                                        console.log(price_request[k]);
-                                        // await sendMessage(process.env.SLACK_PRICE_ID, message);
-                                        // await client.query(`UPDATE price_table SET homestate = '1' WHERE game_id = '${price_request[k].game_id}';`);
-                                        // if(price_request[k].awaystate == '1' || events[x].away >= price_request[k].awayprice ) {
-                                        //     await client.query(`UPDATE price_table SET awaystate = '1' WHERE game_id = '${price_request[k].game_id}';`);
-                                        //     await client.query(`UPDATE price_table SET status = '1' WHERE game_id = '${price_request[k].game_id}';`);
-                                        // }
-                                    }
+                                    var startDate = new Date(events[x].starts);
+                                    var currentDate = new Date();
+                                    if (currentDate.getTime() <= startDate.getTime()) {
+                                        if(games[y].periods[0].moneyline.away >= parseInt(price_request[k].awayprice) && price_request[k].awaystate == '0' && parseInt(price_request[k].awayprice) != 0) {
+                                            var message = `${events[x].away} @ ${events[x].home}\n The price you requested on ${events[x].away} (${price_request[k].awayprice}) is now available ${parseInt(price_request[k].bet) == 1? 'and autobet will bet as requested': ''}`;
+                                            console.log(events[x]);
+                                            console.log(price_request[k]);
+                                            await sendMessage(process.env.SLACK_PRICE_ID, message);
+                                            await client.query(`UPDATE price_table SET awaystate = '1' WHERE game_id = '${price_request[k].game_id}';`);
+                                            if(price_request[k].homestate == '1')
+                                                await client.query(`UPDATE price_table SET status = '1' WHERE game_id = '${price_request[k].game_id}';`);
+                                        }
+    
+                                        if(games[y].periods[0].moneyline.home >= parseInt(price_request[k].homeprice) && price_request[k].homestate == '0' && parseInt(price_request[k].homeprice) != 0) {
+                                            var message = `${events[x].away} @ ${events[x].home}\n The price you requested on ${events[x].home} (${price_request[k].homeprice}) is now available ${parseInt(price_request[k].bet) == 1? 'and autobet will bet as requested': ''}`;
+                                            console.log(events[x]);
+                                            console.log(price_request[k]);
+                                            await sendMessage(process.env.SLACK_PRICE_ID, message);
+                                            await client.query(`UPDATE price_table SET homestate = '1' WHERE game_id = '${price_request[k].game_id}';`);
+                                            if(price_request[k].awaystate == '1' || events[x].away >= price_request[k].awayprice ) {
+                                                await client.query(`UPDATE price_table SET awaystate = '1' WHERE game_id = '${price_request[k].game_id}';`);
+                                                await client.query(`UPDATE price_table SET status = '1' WHERE game_id = '${price_request[k].game_id}';`);
+                                            }
+                                        }
+                                    } else if (currentDate.getTime() > startDate.getTime()) {
+                                        await client.query(`UPDATE price_table SET status = '1' WHERE game_id = '${price_request[k].game_id}';`);
+                                    } 
+                                    
                                 }
                         }
                     }
