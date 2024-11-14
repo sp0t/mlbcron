@@ -120,6 +120,7 @@ const priceAlert = async() => {
         
         var games = retodd.data.leagues[0].events;
         console.log(events);
+        console.log(price_request);
 
         for (var x in events) {
             for (var y in games) {
@@ -134,8 +135,7 @@ const priceAlert = async() => {
                                     if (currentDate.getTime() <= startDate.getTime()) {
                                         if(games[y].periods[0].moneyline.away >= parseInt(price_request[k].awayprice) && price_request[k].awaystate == '0' && parseInt(price_request[k].awayprice) != 0) {
                                             var message = `${events[x].away} @ ${events[x].home}\n The price you requested on ${events[x].away} (${price_request[k].awayprice}) is now available ${parseInt(price_request[k].bet) == 1? 'and autobet will bet as requested': ''}`;
-                                            console.log(events[x]);
-                                            console.log(price_request[k]);
+                                    
                                             await sendMessage(process.env.SLACK_PRICE_ID, message);
                                             await client.query(`UPDATE price_table SET awaystate = '1' WHERE game_id = '${price_request[k].game_id}';`);
                                             if(price_request[k].homestate == '1')
@@ -144,8 +144,8 @@ const priceAlert = async() => {
     
                                         if(games[y].periods[0].moneyline.home >= parseInt(price_request[k].homeprice) && price_request[k].homestate == '0' && parseInt(price_request[k].homeprice) != 0) {
                                             var message = `${events[x].away} @ ${events[x].home}\n The price you requested on ${events[x].home} (${price_request[k].homeprice}) is now available ${parseInt(price_request[k].bet) == 1? 'and autobet will bet as requested': ''}`;
-                                            console.log(events[x]);
-                                            console.log(price_request[k]);
+                                            
+                    
                                             await sendMessage(process.env.SLACK_PRICE_ID, message);
                                             await client.query(`UPDATE price_table SET homestate = '1' WHERE game_id = '${price_request[k].game_id}';`);
                                             if(price_request[k].awaystate == '1' || events[x].away >= price_request[k].awayprice ) {
