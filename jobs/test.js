@@ -129,10 +129,10 @@ const priceAlert = async() => {
                                 if(price_request[k].away_full_name == events[x].away && price_request[k].home_full_name == events[x].home) {
                                     var startDate = new Date(events[x].starts);
                                     var currentDate = new Date();
-                                    console.log(price_request[k]);
-                                    console.log(events[x]);
-                                    console.log(games[y].periods[0].moneyline.away, games[y].periods[0].moneyline.home);
                                     if (currentDate.getTime() <= startDate.getTime()) {
+                                        console.log(price_request[k]);
+                                        console.log(events[x]);
+                                        console.log(games[y].periods[0].moneyline.away, games[y].periods[0].moneyline.home);
                                         if(games[y].periods[0].moneyline.away >= parseInt(price_request[k].awayprice) && price_request[k].awaystate == '0' && parseInt(price_request[k].awayprice) != 0) {
                                             var message = `${events[x].away} @ ${events[x].home}\n The price you requested on ${events[x].away} (${price_request[k].awayprice}) is now available ${parseInt(price_request[k].bet) == 1? 'and autobet will bet as requested': ''}`;
                                     
