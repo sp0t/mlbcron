@@ -119,8 +119,6 @@ const priceAlert = async() => {
         }
         
         var games = retodd.data.leagues[0].events;
-        console.log(events);
-        console.log(price_request);
 
         for (var x in events) {
             for (var y in games) {
@@ -131,6 +129,8 @@ const priceAlert = async() => {
                                 if(price_request[k].away_full_name == events[x].away && price_request[k].home_full_name == events[x].home) {
                                     var startDate = new Date(events[x].starts);
                                     var currentDate = new Date();
+                                    console.log(price_request[k]);
+                                    console.log(events[i]);
                                     if (currentDate.getTime() <= startDate.getTime()) {
                                         if(games[y].periods[0].moneyline.away >= parseInt(price_request[k].awayprice) && price_request[k].awaystate == '0' && parseInt(price_request[k].awayprice) != 0) {
                                             var message = `${events[x].away} @ ${events[x].home}\n The price you requested on ${events[x].away} (${price_request[k].awayprice}) is now available ${parseInt(price_request[k].bet) == 1? 'and autobet will bet as requested': ''}`;
