@@ -119,6 +119,7 @@ exports.priceAlert = async() => {
         }
         
         var games = retodd.data.leagues[0].events;
+        console.log(events);
 
         for (var x in events) {
             for (var y in games) {
