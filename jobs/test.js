@@ -129,7 +129,6 @@ const priceAlert = async() => {
                         if(games[y].periods[0].moneyline.away != undefined && games[y].periods[0].moneyline.home != undefined)
                             for (var k in price_request) {
                                 if(price_request[k].away_full_name == events[x].away && price_request[k].home_full_name == events[x].home) {
-                                    console.log(events[x])
                                     var startDate = new Date(events[x].starts);
                                     var currentDate = new Date();
                                     if (currentDate.getTime() <= startDate.getTime()) {
