@@ -200,9 +200,9 @@ exports.priceAlert = async() => {
                                                     "pitcher1MustStart": true,
                                                     "pitcher2MustStart": true,
                                                     "fillType": "NORMAL",
-                                                    "sportId": 3,
+                                                    "sportId": 19,
                                                     "eventId": events[x].id,
-                                                    "periodNumber": 19,
+                                                    "periodNumber": 0,
                                                     "betType": "MONEYLINE",
                                                     "team": "TEAM2"
                                                 };
