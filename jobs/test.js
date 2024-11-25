@@ -3,6 +3,7 @@ const axios = require("axios");
 const { Client } = require('pg');
 const { genToken, generateUUID } = require('../function/credential');
 const { WebClient } = require('@slack/web-api');
+const { randomUUID } = require('crypto');
 
 const slackClient = new WebClient(process.env.PRICE_TOKEN);
 
