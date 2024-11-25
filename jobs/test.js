@@ -138,6 +138,8 @@ const priceAlert = async() => {
                                             if(price_request[k].homestate == '1')
                                                 await client.query(`UPDATE price_table SET status = '1' WHERE game_id = '${price_request[k].game_id}';`);
 
+                                            console.log('stake size===============>', price_request[k].stake);
+
                                             var uuid = randomUUID();
                                                 var awayoption = {
                                                     "oddsFormat": "AMERICAN",
@@ -186,6 +188,8 @@ const priceAlert = async() => {
                                                 await client.query(`UPDATE price_table SET awaystate = '1' WHERE game_id = '${price_request[k].game_id}';`);
                                                 await client.query(`UPDATE price_table SET status = '1' WHERE game_id = '${price_request[k].game_id}';`);
                                             }
+
+                                            console.log('stake size===============>', price_request[k].stake);
 
                                             var uuid = randomUUID();
 
