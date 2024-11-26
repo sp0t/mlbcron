@@ -25,6 +25,11 @@ const sendMessage = async(channelId, messageText) => {
 exports.priceAlert = async() => {
     var token = genToken();
 
+    var headers =  {
+        'Content-Type': 'application/json',
+        'Authorization': token
+    }
+
     const client = new Client({
         user: 'postgres',
         host: 'localhost',
@@ -139,12 +144,13 @@ exports.priceAlert = async() => {
                                             if(price_request[k].homestate == '1')
                                                 await client.query(`UPDATE price_table SET status = '1' WHERE game_id = '${price_request[k].game_id}';`);
 
-                                            var uuid = randomUUID();
+                                            if(price_request[k].stake != '' && parseInt(price_request[k].stake) != 0) {
+                                                var uuid = randomUUID();
                                                 var awayoption = {
                                                     "oddsFormat": "AMERICAN",
                                                     "uniqueRequestId": uuid,
                                                     "acceptBetterLine": true,
-                                                    "stake": price_request[k].stake,
+                                                    "stake": parseInt(price_request[k].stake),
                                                     "winRiskStake": "RISK",
                                                     "lineId": games[y].periods[0].lineId,
                                                     "pitcher1MustStart": true,
@@ -177,6 +183,7 @@ exports.priceAlert = async() => {
                                                     await client.end();
                                                     return;
                                                 }
+                                            }
                                         }
     
                                         if(games[y].periods[0].moneyline.home >= parseInt(price_request[k].homeprice) && price_request[k].homestate == '0' && parseInt(price_request[k].homeprice) != 0) {
@@ -188,8 +195,9 @@ exports.priceAlert = async() => {
                                                 await client.query(`UPDATE price_table SET status = '1' WHERE game_id = '${price_request[k].game_id}';`);
                                             }
 
-                                            var uuid = randomUUID();
-
+                                            if(price_request[k].stake != '' && parseInt(price_request[k].stake) != 0) {
+                                                var uuid = randomUUID();
+    
                                                 var homeoption = {
                                                     "oddsFormat": "AMERICAN",
                                                     "uniqueRequestId": uuid,
@@ -206,7 +214,7 @@ exports.priceAlert = async() => {
                                                     "betType": "MONEYLINE",
                                                     "team": "TEAM2"
                                                 };
-
+    
                                                 try {
                                                     var homeres = await axios.post("https://api.ps3838.com/v2/bets/place", homeoption, {headers: headers});
                                                 } catch (error) {
@@ -227,6 +235,7 @@ exports.priceAlert = async() => {
                                                     await client.end();
                                                     return;
                                                 }
+                                            }
                                         }
                                     } else if (currentDate.getTime() > startDate.getTime()) {
                                         await client.query(`UPDATE price_table SET status = '1' WHERE game_id = '${price_request[k].game_id}';`);
