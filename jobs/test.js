@@ -189,7 +189,9 @@ const priceAlert = async() => {
                                                 console.log('stake size is wrong!');
                                             }
                                         }
-    
+                                        
+                                        console.log(games[y].periods[0].moneyline.home);
+                                        console.log(parseInt(price_request[k].homeprice));
                                         if(games[y].periods[0].moneyline.home >= parseInt(price_request[k].homeprice) && price_request[k].homestate == '0' && parseInt(price_request[k].homeprice) != 0) {
                                             var message = `${events[x].away} @ ${events[x].home}\n The price you requested on ${events[x].home} (${price_request[k].homeprice}) is now available ${parseInt(price_request[k].bet) == 1? 'and autobet will bet as requested': ''}`;
                                             await sendMessage(process.env.SLACK_PRICE_ID, message);
