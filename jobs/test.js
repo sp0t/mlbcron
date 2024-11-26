@@ -142,7 +142,6 @@ const priceAlert = async() => {
                                             await sendMessage(process.env.SLACK_PRICE_ID, message);
                                             await client.query(`UPDATE price_table SET awaystate = '1' WHERE game_id = '${price_request[k].game_id}';`);
                                             if(price_request[k].homestate == '1') {
-                                                console.log('===========1');
                                                 await client.query(`UPDATE price_table SET status = '1' WHERE game_id = '${price_request[k].game_id}';`);
                                             }
 
@@ -165,45 +164,41 @@ const priceAlert = async() => {
                                                     "team": "TEAM1"
                                                 };
                                                 
-                                                // try {
-                                                //     var awayres = await axios.post("https://api.ps3838.com/v2/bets/place", awayoption, {headers: headers});
-                                                // } catch (error) {
-                                                //     if (error.response) {
-                                                //         // The request was made and the server responded with a status code
-                                                //         // that falls out of the range of 2xx
-                                                //         console.log(error.response.data);
-                                                //         console.log(error.response.status);
-                                                //         console.log(error.response.headers);
-                                                //     } else if (error.request) {
-                                                //         // The request was made but no response was received
-                                                //         console.log(error.request);
-                                                //     } else {
-                                                //         // Something happened in setting up the request that triggered an Error
-                                                //         console.log('Error', error.message);
-                                                //     }
-                                                //     console.log(error.config);
-                                                //     await client.end();
-                                                //     return;
-                                                // }
+                                                try {
+                                                    var awayres = await axios.post("https://api.ps3838.com/v2/bets/place", awayoption, {headers: headers});
+                                                } catch (error) {
+                                                    if (error.response) {
+                                                        // The request was made and the server responded with a status code
+                                                        // that falls out of the range of 2xx
+                                                        console.log(error.response.data);
+                                                        console.log(error.response.status);
+                                                        console.log(error.response.headers);
+                                                    } else if (error.request) {
+                                                        // The request was made but no response was received
+                                                        console.log(error.request);
+                                                    } else {
+                                                        // Something happened in setting up the request that triggered an Error
+                                                        console.log('Error', error.message);
+                                                    }
+                                                    console.log(error.config);
+                                                    await client.end();
+                                                    return;
+                                                }
                                             } else {
                                                 console.log('stake size is wrong!');
                                             }
                                         }
                                         
-                                        console.log(games[y].periods[0].moneyline.home);
-                                        console.log(parseInt(price_request[k].homeprice));
                                         if(games[y].periods[0].moneyline.home >= parseInt(price_request[k].homeprice) && price_request[k].homestate == '0' && parseInt(price_request[k].homeprice) != 0) {
                                             var message = `${events[x].away} @ ${events[x].home}\n The price you requested on ${events[x].home} (${price_request[k].homeprice}) is now available ${parseInt(price_request[k].bet) == 1? 'and autobet will bet as requested': ''}`;
                                             await sendMessage(process.env.SLACK_PRICE_ID, message);
                                             await client.query(`UPDATE price_table SET homestate = '1' WHERE game_id = '${price_request[k].game_id}';`);
                                             if(price_request[k].awaystate == '1' || games[y].periods[0].moneyline.away >= parseInt(price_request[k].awayprice)) {
-                                                console.log('===========2');
                                                 await client.query(`UPDATE price_table SET awaystate = '1' WHERE game_id = '${price_request[k].game_id}';`);
                                                 await client.query(`UPDATE price_table SET status = '1' WHERE game_id = '${price_request[k].game_id}';`);
                                             }
 
                                             if(price_request[k].bet == '1' && price_request[k].stake != '' && parseInt(price_request[k].stake) != 0) {
-                                                console.log(price_request[k].stake);
                                                 var uuid = randomUUID();
     
                                                 var homeoption = {
@@ -223,32 +218,31 @@ const priceAlert = async() => {
                                                     "team": "TEAM2"
                                                 };
     
-                                                // try {
-                                                //     var homeres = await axios.post("https://api.ps3838.com/v2/bets/place", homeoption, {headers: headers});
-                                                // } catch (error) {
-                                                //     if (error.response) {
-                                                //         // The request was made and the server responded with a status code
-                                                //         // that falls out of the range of 2xx
-                                                //         console.log(error.response.data);
-                                                //         console.log(error.response.status);
-                                                //         console.log(error.response.headers);
-                                                //     } else if (error.request) {
-                                                //         // The request was made but no response was received
-                                                //         console.log(error.request);
-                                                //     } else {
-                                                //         // Something happened in setting up the request that triggered an Error
-                                                //         console.log('Error', error.message);
-                                                //     }
-                                                //     console.log(error.config);
-                                                //     await client.end();
-                                                //     return;
-                                                // }
+                                                try {
+                                                    var homeres = await axios.post("https://api.ps3838.com/v2/bets/place", homeoption, {headers: headers});
+                                                } catch (error) {
+                                                    if (error.response) {
+                                                        // The request was made and the server responded with a status code
+                                                        // that falls out of the range of 2xx
+                                                        console.log(error.response.data);
+                                                        console.log(error.response.status);
+                                                        console.log(error.response.headers);
+                                                    } else if (error.request) {
+                                                        // The request was made but no response was received
+                                                        console.log(error.request);
+                                                    } else {
+                                                        // Something happened in setting up the request that triggered an Error
+                                                        console.log('Error', error.message);
+                                                    }
+                                                    console.log(error.config);
+                                                    await client.end();
+                                                    return;
+                                                }
                                             } else {
                                                 console.log('stake size is wrong!');
                                             }
                                         }
                                     } else if (currentDate.getTime() > startDate.getTime()) {
-                                        console.log('===========3');
                                         await client.query(`UPDATE price_table SET status = '1' WHERE game_id = '${price_request[k].game_id}';`);
                                     } 
                                     
