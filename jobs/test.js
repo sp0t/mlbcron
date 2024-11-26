@@ -146,7 +146,7 @@ const priceAlert = async() => {
                                                 await client.query(`UPDATE price_table SET status = '1' WHERE game_id = '${price_request[k].game_id}';`);
                                             }
 
-                                            if(price_request[k].stake != '' && parseInt(price_request[k].stake) != 0) {
+                                            if(price_request[k].bet == '1' && price_request[k].stake != '' && parseInt(price_request[k].stake) != 0) {
                                                 var uuid = randomUUID();
                                                 var awayoption = {
                                                     "oddsFormat": "AMERICAN",
@@ -196,13 +196,14 @@ const priceAlert = async() => {
                                             var message = `${events[x].away} @ ${events[x].home}\n The price you requested on ${events[x].home} (${price_request[k].homeprice}) is now available ${parseInt(price_request[k].bet) == 1? 'and autobet will bet as requested': ''}`;
                                             await sendMessage(process.env.SLACK_PRICE_ID, message);
                                             await client.query(`UPDATE price_table SET homestate = '1' WHERE game_id = '${price_request[k].game_id}';`);
-                                            if(price_request[k].awaystate == '1' || events[x].away >= price_request[k].awayprice ) {
+                                            if(price_request[k].awaystate == '1' || games[y].periods[0].moneyline.away >= parseInt(price_request[k].awayprice)) {
                                                 console.log('===========2');
                                                 await client.query(`UPDATE price_table SET awaystate = '1' WHERE game_id = '${price_request[k].game_id}';`);
                                                 await client.query(`UPDATE price_table SET status = '1' WHERE game_id = '${price_request[k].game_id}';`);
                                             }
 
-                                            if(price_request[k].stake != '' && parseInt(price_request[k].stake) != 0) {
+                                            if(price_request[k].bet == '1' && price_request[k].stake != '' && parseInt(price_request[k].stake) != 0) {
+                                                console.log(price_request[k].stake);
                                                 var uuid = randomUUID();
     
                                                 var homeoption = {
