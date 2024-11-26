@@ -141,8 +141,10 @@ const priceAlert = async() => {
                                             var message = `${events[x].away} @ ${events[x].home}\n The price you requested on ${events[x].away} (${price_request[k].awayprice}) is now available ${parseInt(price_request[k].bet) == 1? 'and autobet will bet as requested': ''}`;
                                             await sendMessage(process.env.SLACK_PRICE_ID, message);
                                             await client.query(`UPDATE price_table SET awaystate = '1' WHERE game_id = '${price_request[k].game_id}';`);
-                                            if(price_request[k].homestate == '1')
+                                            if(price_request[k].homestate == '1') {
+                                                console.log('===========1');
                                                 await client.query(`UPDATE price_table SET status = '1' WHERE game_id = '${price_request[k].game_id}';`);
+                                            }
 
                                             if(price_request[k].stake != '' && parseInt(price_request[k].stake) != 0) {
                                                 var uuid = randomUUID();
@@ -193,6 +195,7 @@ const priceAlert = async() => {
                                             await sendMessage(process.env.SLACK_PRICE_ID, message);
                                             await client.query(`UPDATE price_table SET homestate = '1' WHERE game_id = '${price_request[k].game_id}';`);
                                             if(price_request[k].awaystate == '1' || events[x].away >= price_request[k].awayprice ) {
+                                                console.log('===========2');
                                                 await client.query(`UPDATE price_table SET awaystate = '1' WHERE game_id = '${price_request[k].game_id}';`);
                                                 await client.query(`UPDATE price_table SET status = '1' WHERE game_id = '${price_request[k].game_id}';`);
                                             }
@@ -242,6 +245,7 @@ const priceAlert = async() => {
                                             }
                                         }
                                     } else if (currentDate.getTime() > startDate.getTime()) {
+                                        console.log('===========3');
                                         await client.query(`UPDATE price_table SET status = '1' WHERE game_id = '${price_request[k].game_id}';`);
                                     } 
                                     
