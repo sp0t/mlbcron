@@ -44,12 +44,12 @@ const task6 = cron.schedule('*/4 * * * * *', () => {
   scheduled: true
 });
 
-const task7 = cron.schedule('*/10 * * * * *', () => {
-  console.log('task7.....started');
-  priceAlert();
-  }, {
-  scheduled: true
-});
+// const task7 = cron.schedule('*/10 * * * * *', () => {
+//   console.log('task7.....started');
+//   priceAlert();
+//   }, {
+//   scheduled: true
+// });
 
 task1.start();
 task2.start();
