@@ -39,6 +39,12 @@ const priceAlert = async() => {
     })
 
     await client.connect();
+    var schedule_res = await client.query(`SELECT * FROM schedule;`);
+    if(schedule_res.rows == undefined || schedule_res.rows.length == 0) {
+        console.log('no schedule');
+        await client.end();
+        return;
+    }
     var res = await client.query(`SELECT * FROM price_table INNER JOIN schedule ON price_table.game_id = schedule.game_id WHERE price_table.status = '0';`);
     if(res.rows != undefined && res.rows.length > 0 ) {
         price_request = res.rows;

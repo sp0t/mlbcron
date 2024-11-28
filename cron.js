@@ -44,12 +44,12 @@ const task6 = cron.schedule('*/4 * * * * *', () => {
   scheduled: true
 });
 
-// const task7 = cron.schedule('*/10 * * * * *', () => {
-//   console.log('task7.....started');
-//   priceAlert();
-//   }, {
-//   scheduled: true
-// });
+const task7 = cron.schedule('*/10 * * * * *', () => {
+  console.log('task7.....started');
+  priceAlert();
+  }, {
+  scheduled: true
+});
 
 task1.start();
 task2.start();
@@ -57,6 +57,6 @@ task3.start();
 task4.start();
 task5.start();
 task6.start();
-// task7.start();
+task7.start();
 
 console.log('Cron jobs have been initialized');
