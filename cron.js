@@ -57,6 +57,6 @@ task3.start();
 task4.start();
 task5.start();
 task6.start();
-task7.start();
+// task7.start();
 
 console.log('Cron jobs have been initialized');
